@@ -14,12 +14,12 @@ export function middleware(req: NextRequest, res: NextResponse) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
   if (userAccessTokenAdmin) {
-    if (!req.nextUrl.pathname.startsWith("/h")) {
+    if (!req.nextUrl.pathname.startsWith("/h") && !req.nextUrl.pathname.startsWith("/clubs")) {
       return NextResponse.redirect(new URL("/h", req.url));
     }
   }
   if (userAccessTokenSubAdmin) {
-    if (!req.nextUrl.pathname.startsWith("/a")) {
+    if (!req.nextUrl.pathname.startsWith("/a") && !req.nextUrl.pathname.startsWith("/clubs/")) {
       return NextResponse.redirect(new URL("/a", req.url));
     }
   }

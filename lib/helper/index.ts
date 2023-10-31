@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import { decode } from 'jwt-js-decode';
 
 // User Type
 export const EVENT_USER_ADMIN = "EVENT-ADMIN";
@@ -46,8 +47,7 @@ export async function getErrorMessage(errorValue: String) {
 
 export const extractJWTValues = async (token: any) => {
   try {
-    // const decodedValue = await jwt_decode(token);
-    const decodedValue = await jwt_decode(token);
+    const decodedValue = await decode(token);
     return decodedValue;
   } catch (error) {
     return null;

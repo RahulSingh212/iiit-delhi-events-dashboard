@@ -155,6 +155,7 @@ export const createSubAdminUserAccount = async (
       subAdmin_Mobile_Number: "",
       subAdmin_Alternate_Mobile_Number: "",
       subAdmin_Email_Id: userEmailId,
+      subAdmin_Events_List: []
     }
   );
 };
