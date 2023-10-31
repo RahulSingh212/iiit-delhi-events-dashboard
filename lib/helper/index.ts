@@ -46,6 +46,7 @@ export async function getErrorMessage(errorValue: String) {
 
 export const extractJWTValues = async (token: any) => {
   try {
+    // const decodedValue = await jwt_decode(token);
     const decodedValue = await jwt_decode(token);
     return decodedValue;
   } catch (error) {

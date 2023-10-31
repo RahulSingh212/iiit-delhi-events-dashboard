@@ -1,5 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
+  EVENTS_ADMIN_INFORMATION_COLLECTION_NAME,
   EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME,
   EVENT_ADMIN_UPDATE_TYPE_NAME,
   EVENT_SUB_ADMIN_UPDATE_TYPE_NAME,
@@ -50,12 +51,11 @@ export const googleAuthentication = async (userType: string) => {
     const user = googleResponse.user;
     const userEmail = user.email;
 
-    
     const userAccessToken = await googleResponse.user.getIdToken();
     const userId = user.uid;
     const userImageUrl = user.photoURL;
     const displayName = user.displayName;
-    
+
     let authType = "";
     const docRef = doc(
       db,
@@ -78,7 +78,7 @@ export const googleAuthentication = async (userType: string) => {
         userEmail,
         userImageUrl,
         displayName,
-        userType
+        userType,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -140,7 +140,7 @@ export const createSubAdminUserAccount = async (
   displayName = ""
 ) => {
   const response = await setDoc(
-    doc(db, EVENT_SUB_ADMIN_UPDATE_TYPE_NAME, userEmailId),
+    doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmailId),
     {
       subAdmin_Id: userId,
       subAdmin_Authorization: true,
@@ -168,7 +168,7 @@ export const createAdminUserAccount = async (
   displayName = ""
 ) => {
   const response = await setDoc(
-    doc(db, EVENT_ADMIN_UPDATE_TYPE_NAME, userEmailId),
+    doc(db, EVENTS_ADMIN_INFORMATION_COLLECTION_NAME, userEmailId),
     {
       admin_Id: userId,
       admin_Authorization: true,

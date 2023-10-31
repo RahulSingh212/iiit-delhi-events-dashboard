@@ -52,7 +52,7 @@ async function handler(req: any, res: any) {
           doc(db, EVENTS_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
         );
         if (!adminDoc.exists()) {
-          res.status(201).json({
+          res.status(422).json({
             userCredentials: null,
             error: null,
             message: "Email is not authorized to be an admin",
@@ -64,19 +64,13 @@ async function handler(req: any, res: any) {
           doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
         );
         if (!subAdminDoc.exists()) {
-          res.status(201).json({
+          res.status(422).json({
             userCredentials: null,
             error: null,
-            message: "Email is not authorized",
+            message: "Email is not authorized to be a sub-admin",
           });
           return;
         }
-        res.status(201).json({
-          userCredentials: null,
-          error: null,
-          message: "Email is not authorized to be a sub-admin",
-        });
-        return;
       }
 
       const response = await createUserWithEmailAndPassword(
@@ -124,7 +118,11 @@ async function handler(req: any, res: any) {
           }
         )
       );
-      res.status(201).json(response);
+      res.status(201).json({
+        userCredentials: response,
+        error: null,
+        message: 'email verification completed successfully.'
+      });
     }
     // else if (authType === EMAIL_LOGIN) {
     else {
@@ -151,7 +149,11 @@ async function handler(req: any, res: any) {
           }
         )
       );
-      res.status(201).json(response);
+      res.status(201).json({
+        userCredentials: response,
+        error: null,
+        message: 'email verification completed successfully.'
+      });
     }
   } catch (error) {
     console.log(error);

@@ -61,7 +61,12 @@ export const AuthCard = (props: Props) => {
       setErrorModel(true);
     } else {
       setLoadingModel(true);
-      router.push("/profile");
+      if (userType === EVENT_USER_ADMIN) {
+        router.replace("/h");
+      }
+      else {
+        router.replace("/a");
+      }
     }
   };
 
@@ -99,6 +104,7 @@ export const AuthCard = (props: Props) => {
         alert(userResponse.message);
       } 
       else {
+        setLoadingModel(true);
         if (userType === EVENT_USER_ADMIN) {
           router.replace("/h");
         }

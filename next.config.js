@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   plugins: [require("tailwindcss")],
+  css: ["styles/global.css"],
   images: {
     remotePatterns: [
       {
@@ -9,6 +10,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+    unoptimized: true,
     loader: "default",
     dangerouslyAllowSVG: true,
   },
