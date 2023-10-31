@@ -2,6 +2,32 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
+import { googleAuthentication } from "@/lib/firebase/userHandler";
+import {
+  EMAIL_LOGIN,
+  EMAIL_SIGNUP,
+  EVENT_USER_ADMIN,
+  EVENT_USER_SUB_ADMIN,
+  getErrorMessage,
+} from "@/lib/helper";
+
+export const userEmailAuthApiHandler = async (
+  authType: any,
+  userEmail: any,
+  userPassword: any,
+  userType: string
+) => {
+  const response = await fetch("/api/auth/userEmailAuth", {
+    method: "POST",
+    body: JSON.stringify({ authType, userEmail, userPassword, userType }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  return data;
+};
 
 type Props = {};
 
@@ -20,22 +46,23 @@ export const AuthCard = (props: Props) => {
   const [isPasswordVisible, setPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] =
     useState<boolean>(false);
+  const [userType, setUserType] = useState<string>(EVENT_USER_SUB_ADMIN);
 
   const googleLoginHandler = async () => {
-    // const userResponse = await googleAuthentication();
-    // if (!userResponse.userCredentials && !userResponse.error) {
-    //   setErrorMessage(String(userResponse.message));
-    //   setErrorModel(true);
-    // } else if (userResponse.error) {
-    //   const displayErrorMsg = await getErrorMessage(
-    //     "Google authentication error!"
-    //   );
-    //   setErrorMessage(String(displayErrorMsg));
-    //   setErrorModel(true);
-    // } else {
-    //   setLoadingModel(true);
-    //   router.push("/profile");
-    // }
+    const userResponse = await googleAuthentication(userType);
+    if (!userResponse.userCredentials && !userResponse.error) {
+      setErrorMessage(String(userResponse.message));
+      setErrorModel(true);
+    } else if (userResponse.error) {
+      const displayErrorMsg = await getErrorMessage(
+        "Google authentication error!"
+      );
+      setErrorMessage(String(displayErrorMsg));
+      setErrorModel(true);
+    } else {
+      setLoadingModel(true);
+      router.push("/profile");
+    }
   };
 
   const emailLoginHandler = async (event: any) => {
@@ -54,25 +81,36 @@ export const AuthCard = (props: Props) => {
       return;
     }
 
-    // try {
-    //   const userResponse = await userEmailAuthApiHandler(
-    //     isLogin ? EMAIL_LOGIN : EMAIL_SIGNUP,
-    //     enteredEmail,
-    //     enteredPassword
-    //   );
-    //   if (userResponse.error) {
-    //     setLoadingModel(false);
-    //     setErrorModel(true);
-    //     const displayErrorMsg = await getErrorMessage(userResponse.error.code);
-    //     setErrorMessage(String(displayErrorMsg));
-    //   } else {
-    //     router.replace("/profile");
-    //   }
-    // } catch (error: any) {
-    //   setLoadingModel(false);
-    //   setErrorModel(true);
-    //   setErrorMessage("Authentication failed!");
-    // }
+    try {
+      const userResponse = await userEmailAuthApiHandler(
+        isLogin ? EMAIL_LOGIN : EMAIL_SIGNUP,
+        enteredEmail,
+        enteredPassword,
+        userType
+      );
+      if (userResponse.error) {
+        setLoadingModel(false);
+        setErrorModel(true);
+        const displayErrorMsg = await getErrorMessage(userResponse.error.code);
+        setErrorMessage(String(displayErrorMsg));
+        alert(displayErrorMsg);
+      }
+      else if (!userResponse.userCredentials) {
+        alert(userResponse.message);
+      } 
+      else {
+        if (userType === EVENT_USER_ADMIN) {
+          router.replace("/h");
+        }
+        else {
+          router.replace("/a");
+        }
+      }
+    } catch (error: any) {
+      setLoadingModel(false);
+      setErrorModel(true);
+      setErrorMessage("Authentication failed!");
+    }
   };
 
   return (
@@ -89,10 +127,26 @@ export const AuthCard = (props: Props) => {
             {isLogin ? "Log-in" : "Sign-up"}
           </h2>
         </div>
-        <div className={`relative w-full mb-6`}>
+
+        <div className={`relative w-full mb-2`}>
           <p className={`font-light text-md text-red-600 text-center`}>
             Please enter your credentails
           </p>
+        </div>
+
+        <div className={`relative flex w-full mb-6`}>
+          <div className={`relative mx-auto`}>
+            <label>Select User Type:</label>
+            <select
+              value={userType}
+              onChange={(event) => {
+                setUserType(event.target.value);
+              }}
+            >
+              <option value={EVENT_USER_ADMIN}>Admin</option>
+              <option value={EVENT_USER_SUB_ADMIN}>Sub Admin</option>
+            </select>
+          </div>
         </div>
         <div
           className={`relative flex w-full align-middle items-center justify-center`}
