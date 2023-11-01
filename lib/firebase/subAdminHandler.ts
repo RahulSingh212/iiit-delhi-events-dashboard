@@ -12,7 +12,7 @@ export const fetchSubAdminClubInfoList = async (
   const userDoc = await getDoc(
     doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmailId)
   );
-  let clubIdsList: any[] = userDoc.data()?.subAdmin_Events_List;
+  let clubIdsList: any[] = userDoc.data()?.subAdmin_Clubs_List;
 
   let clubsList: any[] = [];
   for (let clubId of clubIdsList) {
