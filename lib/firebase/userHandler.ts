@@ -2,7 +2,9 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   EVENTS_ADMIN_INFORMATION_COLLECTION_NAME,
   EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME,
+  EVENT_ADMIN_ACCESS_TOKEN,
   EVENT_ADMIN_UPDATE_TYPE_NAME,
+  EVENT_SUB_ADMIN_ACCESS_TOKEN,
   EVENT_SUB_ADMIN_UPDATE_TYPE_NAME,
   GET_EVENT_SUB_ADMIN_TOKEN_OBJECT,
   GOOGLE_LOGIN,
@@ -25,17 +27,22 @@ import {
 } from "firebase/firestore";
 import { db } from ".";
 
-// export const fetchLoggedInOwnerInfo = async (): Promise<any> => {
-//   const response = await fetch("/api/userProfile/fetchCookieDetails", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
+export const fetchLoggedInUserInfo = async (
+  isAdmin: boolean = false,
+): Promise<any> => {
+  const response = await fetch("/api/user/fetchCookieDetails", {
+    method: "POST",
+    body: JSON.stringify({
+      accessTokenType: isAdmin ? EVENT_ADMIN_ACCESS_TOKEN : EVENT_SUB_ADMIN_ACCESS_TOKEN
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-//   console.log(response);
-//   return response;
-// };
+  const data = await response.json();
+  return data;
+};
 
 export const googleAuthentication = async (userType: string) => {
   try {
@@ -189,21 +196,6 @@ export const createAdminUserAccount = async (
   );
 };
 
-export const getUserAccessTokenObject = async () => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const requestType = GET_EVENT_SUB_ADMIN_TOKEN_OBJECT;
-  const response = await fetch(`/api/userProfile/fetchUserAccessToken`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  const data = await response.json();
-  console.log("Cred " + data.userCredentials);
-  return data.userCredentials;
-};
-
 export const getUserProfileDetails = async (userAccessTokenObject: any) => {
   if (userAccessTokenObject === null) return null;
   const docRef = doc(
@@ -213,26 +205,4 @@ export const getUserProfileDetails = async (userAccessTokenObject: any) => {
   );
   const docSnap = await getDoc(docRef);
   return docSnap.data();
-};
-
-export const fetchUserImageUrl = async () => {
-  const response = await fetch("/api/userProfile/fetchUserDetails", {
-    method: "POST",
-    body: JSON.stringify({
-      userBooking: "userBooking",
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  const data = await response.json();
-
-  let imageUrl = "";
-
-  if (data.userCredentials) {
-    imageUrl = data.userCredentials.User_Image_Url;
-  }
-
-  return imageUrl;
 };
