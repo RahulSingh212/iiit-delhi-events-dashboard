@@ -30,6 +30,9 @@ export function middleware(req: NextRequest, res: NextResponse) {
       !req.nextUrl.pathname.startsWith("/a") &&
       (req.nextUrl.pathname.startsWith("/clubs")
         ? (req.nextUrl.pathname.match(/\//g) || []).length < 2
+        : true) &&
+      (req.nextUrl.pathname.startsWith("/events")
+        ? (req.nextUrl.pathname.match(/\//g) || []).length < 2
         : true)
     ) {
       return NextResponse.redirect(new URL("/a", req.url));
@@ -40,5 +43,5 @@ export function middleware(req: NextRequest, res: NextResponse) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/a", "/h", "/clubs", "/clubs/"],
+  matcher: ["/", "/login", "/a", "/h", "/events", "/clubs"],
 };
