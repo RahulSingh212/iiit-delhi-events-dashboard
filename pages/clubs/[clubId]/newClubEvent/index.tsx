@@ -1,4 +1,5 @@
 import { AddNewEvent } from "@/components/AddNewEvent";
+import { EVENT_CLUB } from "@/lib/helper";
 
 type Props = {};
 
@@ -9,7 +10,7 @@ export default function NewClubEventPage(props: Props) {
         Add New Event for the Club
       </div>
       <div className={`relative w-[90%] mx-auto`}>
-        <AddNewEvent eventType={"CLUB-EVENT"} />
+        <AddNewEvent eventType={EVENT_CLUB} />
       </div>
     </main>
   );

@@ -1,8 +1,7 @@
 import { AddNewEvent } from "@/components/AddNewEvent";
+import { EVENT_INDEPENDENT } from "@/lib/helper";
 
-type Props = {
-    
-};
+type Props = {};
 
 export default function NewClubEventPage(props: Props) {
   return (
@@ -11,7 +10,7 @@ export default function NewClubEventPage(props: Props) {
         Add New Independent Event
       </div>
       <div className={`relative w-[90%] mx-auto`}>
-        <AddNewEvent eventType={"INDEPENDENT-EVENT"} />
+        <AddNewEvent eventType={EVENT_INDEPENDENT} />
       </div>
     </main>
   );

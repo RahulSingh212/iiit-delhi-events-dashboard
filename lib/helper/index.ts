@@ -5,6 +5,10 @@ import { decode } from 'jwt-js-decode';
 export const EVENT_USER_ADMIN = "EVENT-ADMIN";
 export const EVENT_USER_SUB_ADMIN = "EVENT-SUB-ADMIN";
 
+// Event Type
+export const EVENT_CLUB = "CLUB_EVENT";
+export const EVENT_INDEPENDENT = "CLUB_INDEPENDENT";
+
 // Collection Names
 export const CLUBS_INFORMATION_COLLECTION_NAME = "CLUBS-DETAILS-INFORMATION";
 export const EVENTS_INFORMATION_COLLECTION_NAME = "EVENTS-DETAILS-INFORMATION";

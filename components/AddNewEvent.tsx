@@ -11,6 +11,7 @@ import { DateBox } from "./feildContainers/DateBox";
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
+import { EVENT_CLUB, EVENT_INDEPENDENT } from "@/lib/helper";
 
 type Props = {
   eventType: string;
@@ -79,9 +80,9 @@ export const AddNewEvent = (props: Props) => {
   };
 
   const submitEventHandler = async () => {
-    if (props.eventType === "CLUB-EVENT") {
+    if (props.eventType === EVENT_CLUB) {
       await addClubEventHandler();
-    } else if (props.eventType === "INDEPENDENT-EVENT") {
+    } else if (props.eventType === EVENT_INDEPENDENT) {
         addIndEventHandler();
     } else {
     }
