@@ -83,7 +83,7 @@ export const AddNewEvent = (props: Props) => {
     if (props.eventType === EVENT_CLUB) {
       await addClubEventHandler();
     } else if (props.eventType === EVENT_INDEPENDENT) {
-        addIndEventHandler();
+      addIndEventHandler();
     } else {
     }
   };
@@ -136,16 +136,21 @@ export const AddNewEvent = (props: Props) => {
         </div>
 
         <div className={`relative w-full flex space-x-2 md:space-x-4 z-20`}>
-          <TimePicker value={eventStartTime} onChange={setEventStartTime} />
-          <TimePicker value={eventEndTime} onChange={setEventEndTime} />
+          <div className={`relative flex flex-col space-y-1 px-2 py-1 bg-blue-50 rounded-lg`}>
+            <span className={`relative text-md font-serif`}>
+              Event Start Time
+            </span>
+            <TimePicker value={eventStartTime} onChange={setEventStartTime} />
+          </div>
+          <div
+            className={`relative flex flex-col space-y-1 px-2 py-1 bg-blue-50 rounded-lg`}
+          >
+            <span className={`relative text-md font-serif`}>
+              Event End Time
+            </span>
+            <TimePicker value={eventEndTime} onChange={setEventEndTime} />
+          </div>
         </div>
-
-        <TextContainer
-          title={`Event Ending Time`}
-          placeholder={`Enter the ending time of the event`}
-          value={eventEndTime}
-          setHandler={setEventEndTime}
-        />
 
         <div className={`relative w-full flex flex-row space-x-3`}>
           <Image
