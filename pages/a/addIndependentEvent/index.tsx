@@ -1,4 +1,4 @@
-import { AddNewIndependentEvent } from "@/components/NewIndEvnt";
+import { AddNewEvent } from "@/components/AddNewEvent";
 
 type Props = {
     
@@ -11,7 +11,7 @@ export default function NewClubEventPage(props: Props) {
         Add New Independent Event
       </div>
       <div className={`relative w-[90%] mx-auto`}>
-        <AddNewIndependentEvent />
+        <AddNewEvent eventType={"INDEPENDENT-EVENT"} />
       </div>
     </main>
   );

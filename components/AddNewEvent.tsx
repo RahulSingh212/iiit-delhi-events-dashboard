@@ -2,22 +2,58 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { EventInformation } from "@/lib/classModals/eventInformation";
-import { createNewEventForClub, createNewIndependentEvent } from "@/lib/firebase/eventsHandler";
+import {
+  createNewEventForClub,
+  createNewIndependentEvent,
+} from "@/lib/firebase/eventsHandler";
+import { TextContainer } from "./feildContainers/TextContainer";
+import { DateBox } from "./feildContainers/DateBox";
+import TimePicker from "react-time-picker";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
 
-type Props = {};
+type Props = {
+  eventType: string;
+};
 
-export const AddNewIndependentEvent = (props: Props) => {
+export const AddNewEvent = (props: Props) => {
   const router = useRouter();
   const [clubId, setClubId] = useState<string>(String(router.query.clubId));
   const [eventName, setEventName] = useState<string>("");
   const [eventDescription, setEventDescription] = useState<string>("");
   const [eventLocation, setEventLocation] = useState<string>("");
   const [eventMapUrl, setEventMapUrl] = useState<string>("");
-  const [eventStartDate, setEventStartDate] = useState<string>("");
-  const [eventEndDate, setEventEndDate] = useState<string>("");
-  const [eventStartTime, setEventStartTime] = useState<string>("");
-  const [eventEndTime, setEventEndTime] = useState<string>("");
+  const [eventStartDate, setEventStartDate] = useState<Date>(new Date());
+  const [eventEndDate, setEventEndDate] = useState<Date>(new Date());
+  const [eventStartTime, setEventStartTime] = useState<any>("00:00");
+  const [eventEndTime, setEventEndTime] = useState<any>("00:00");
   const [eventImageUrl, setEventImageUrl] = useState<string>("");
+
+  const [showStartCalendar, setShowStartCalendar] = useState<boolean>(false);
+  const [showEndCalendar, setShowEndCalendar] = useState<boolean>(false);
+
+  const addClubEventHandler = async () => {
+    let eventInfo = new EventInformation();
+    eventInfo.event_Club_Id = router.query.clubId + "";
+    eventInfo.event_Name = eventName;
+    eventInfo.event_Description = eventDescription;
+    eventInfo.event_Address = eventLocation;
+    eventInfo.event_Location_Url = eventMapUrl;
+    eventInfo.event_Start_Date = eventStartDate;
+    eventInfo.event_End_Date = eventEndDate;
+    eventInfo.event_Start_Time = eventStartTime;
+    eventInfo.event_End_Time = eventEndTime;
+    eventInfo.event_Logo_Url = eventImageUrl;
+    eventInfo.event_Created_By = "PAn72rdmxUQxmjjyrnrs6TEFLDb2";
+
+    const response: any = await createNewEventForClub(eventInfo);
+    alert(response.message);
+    if (response.status) {
+      router.replace({
+        pathname: `/clubs/${router.query.clubId}`,
+      });
+    }
+  };
 
   const addIndEventHandler = async () => {
     let eventInfo = new EventInformation();
@@ -39,6 +75,15 @@ export const AddNewIndependentEvent = (props: Props) => {
       router.replace({
         pathname: `/events/${response.val}`,
       });
+    }
+  };
+
+  const submitEventHandler = async () => {
+    if (props.eventType === "CLUB-EVENT") {
+      await addClubEventHandler();
+    } else if (props.eventType === "INDEPENDENT-EVENT") {
+        addIndEventHandler();
+    } else {
     }
   };
 
@@ -71,24 +116,29 @@ export const AddNewIndependentEvent = (props: Props) => {
           value={eventMapUrl}
           setHandler={setEventMapUrl}
         />
-        <TextContainer
-          title={`Event Starting Date`}
-          placeholder={`Enter the start date of the event`}
-          value={eventStartDate}
-          setHandler={setEventStartDate}
-        />
-        <TextContainer
-          title={`Event Ending Date`}
-          placeholder={`Enter the end date of the event`}
-          value={eventEndDate}
-          setHandler={setEventEndDate}
-        />
-        <TextContainer
-          title={`Event Starting Time`}
-          placeholder={`Enter the starting time of the event`}
-          value={eventStartTime}
-          setHandler={setEventStartTime}
-        />
+
+        <div className={`relative w-full flex space-x-2 md:space-x-4 py-2`}>
+          <DateBox
+            title={"Start Date"}
+            date={eventStartDate}
+            setDate={setEventStartDate}
+            showCalendar={showStartCalendar}
+            setShowCalendar={setShowStartCalendar}
+          />
+          <DateBox
+            title={"End Date"}
+            date={eventEndDate}
+            setDate={setEventEndDate}
+            showCalendar={showEndCalendar}
+            setShowCalendar={setShowEndCalendar}
+          />
+        </div>
+
+        <div className={`relative w-full flex space-x-2 md:space-x-4 z-20`}>
+          <TimePicker value={eventStartTime} onChange={setEventStartTime} />
+          <TimePicker value={eventEndTime} onChange={setEventEndTime} />
+        </div>
+
         <TextContainer
           title={`Event Ending Time`}
           placeholder={`Enter the ending time of the event`}
@@ -114,7 +164,7 @@ export const AddNewIndependentEvent = (props: Props) => {
       </div>
       <div className={`relative w-full flex justify-center my-5`}>
         <button
-          onClick={addIndEventHandler}
+          onClick={submitEventHandler}
           className={`relative px-4 py-2 bg-red-400 hover:bg-red-500 font-semibold text-white mx-auto rounded-3xl`}
         >
           Add Event
@@ -122,23 +172,5 @@ export const AddNewIndependentEvent = (props: Props) => {
       </div>
       <div className={`h-16`}></div>
     </>
-  );
-};
-
-const TextContainer = (props: any) => {
-  return (
-    <div
-      className={`relative w-full flex flex-col space-y-1 py-2 px-1 bg-yellow-50 z-20 my-2`}
-    >
-      <h4 className={`relative w-full`}>{props.title}</h4>
-      <input
-        className="rounded-sm p-1 bg-blue-50"
-        placeholder={props.placeholder}
-        value={props.value}
-        onChange={(e) => {
-          props.setHandler(String(e.target.value));
-        }}
-      />
-    </div>
   );
 };
