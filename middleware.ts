@@ -28,6 +28,7 @@ export function middleware(req: NextRequest, res: NextResponse) {
   if (userAccessTokenSubAdmin) {
     if (
       !req.nextUrl.pathname.startsWith("/a") &&
+      !req.nextUrl.pathname.startsWith("/profile") &&
       (req.nextUrl.pathname.startsWith("/clubs")
         ? (req.nextUrl.pathname.match(/\//g) || []).length < 2
         : true) &&
@@ -43,5 +44,5 @@ export function middleware(req: NextRequest, res: NextResponse) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/a", "/h", "/events", "/clubs"],
+  matcher: ["/", "/login", "/a", "/h", "/events", "/clubs", "/profile"],
 };

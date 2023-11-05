@@ -6,6 +6,8 @@ import {
   EVENT_ADMIN_UPDATE_TYPE_NAME,
   EVENT_SUB_ADMIN_ACCESS_TOKEN,
   EVENT_SUB_ADMIN_UPDATE_TYPE_NAME,
+  EVENT_USER_ADMIN,
+  EVENT_USER_SUB_ADMIN,
   GET_EVENT_SUB_ADMIN_TOKEN_OBJECT,
   GOOGLE_LOGIN,
   GOOGLE_SIGNUP,
@@ -28,12 +30,14 @@ import {
 import { db } from ".";
 
 export const fetchLoggedInUserInfo = async (
-  isAdmin: boolean = false,
+  isAdmin: boolean = false
 ): Promise<any> => {
-  const response = await fetch("/api/user/fetchCookieDetails", {
+  const response = await fetch("/api/auth/fetchCookieDetails", {
     method: "POST",
     body: JSON.stringify({
-      accessTokenType: isAdmin ? EVENT_ADMIN_ACCESS_TOKEN : EVENT_SUB_ADMIN_ACCESS_TOKEN
+      accessTokenType: isAdmin
+        ? EVENT_ADMIN_ACCESS_TOKEN
+        : EVENT_SUB_ADMIN_ACCESS_TOKEN,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -42,6 +46,21 @@ export const fetchLoggedInUserInfo = async (
 
   const data = await response.json();
   return data;
+};
+
+export const userLogoutHandler = async (router: any) => {
+  const response = await fetch("/api/auth/userLogout", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  if (data.status) {
+    router.push({
+      pathname: '/login',
+    });
+  }
 };
 
 export const googleAuthentication = async (userType: string) => {
