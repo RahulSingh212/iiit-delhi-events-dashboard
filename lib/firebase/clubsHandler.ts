@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from ".";
 import { CLUBS_INFORMATION_COLLECTION_NAME } from "../helper";
 import { fetchEventInfo } from "./eventsHandler";
@@ -41,8 +41,18 @@ export const fetchClubInfo = async (clubId: string) => {
   return clubObj;
 };
 
-export const createNewClubHandler = async (
-    clubDetails: any
-) => {
+export const fetchClubsInfoList = async (): Promise<any[]> => {
+  const clubsCol = await getDocs(
+    collection(db, CLUBS_INFORMATION_COLLECTION_NAME)
+  );
 
-}
+  let list: any[] = [];
+  for (let club of clubsCol.docs) {
+    let obj = await fetchClubInfo(club.id);
+    list.push(obj);
+  }
+
+  return list;
+};
+
+export const createNewClubHandler = async (clubDetails: any) => {};

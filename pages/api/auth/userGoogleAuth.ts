@@ -37,31 +37,33 @@ async function handler(req: any, res: any) {
   } = data;
 
   try {
-    if (authType === GOOGLE_SIGNUP) {
-      if (userType === EVENT_USER_ADMIN) {
-        const adminDoc = await getDoc(
-          doc(db, EVENTS_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
-        );
-        if (!adminDoc.exists()) {
-          res.status(201).json({
-            userCredentials: null,
-            error: null,
-            message: "Email is not authorized to be an admin",
-          });
-          return;
-        }
-      } else if (userType === EVENT_USER_SUB_ADMIN) {
-        const subAdminDoc = await getDoc(
-          doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
-        );
-        res.status(201).json({
+    if (userType === EVENT_USER_ADMIN) {
+      const adminDoc = await getDoc(
+        doc(db, EVENTS_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
+      );
+      if (!adminDoc.exists()) {
+        res.status(422).json({
+          userCredentials: null,
+          error: null,
+          message: "Email is not authorized to be an admin",
+        });
+        return;
+      }
+    } else if (userType === EVENT_USER_SUB_ADMIN) {
+      const subAdminDoc = await getDoc(
+        doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
+      );
+      if (!subAdminDoc.exists()) {
+        res.status(422).json({
           userCredentials: null,
           error: null,
           message: "Email is not authorized to be a sub-admin",
         });
         return;
       }
+    }
 
+    if (authType === GOOGLE_SIGNUP) {
       if (userType === EVENT_USER_ADMIN) {
         const dbResponse = await createAdminUserAccount(
           userAccessToken,
@@ -85,7 +87,7 @@ async function handler(req: any, res: any) {
     const response = await res.setHeader(
       "Set-Cookie",
       cookie.serialize(
-        authType === EVENT_USER_ADMIN
+        userType === EVENT_USER_ADMIN
           ? EVENT_ADMIN_ACCESS_TOKEN
           : EVENT_SUB_ADMIN_ACCESS_TOKEN,
         userAccessToken,

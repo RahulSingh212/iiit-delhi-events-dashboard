@@ -1,8 +1,14 @@
+import { parse } from "cookie";
 import { fetchClubFullDetails } from "@/lib/firebase/clubsHandler";
+import {
+  EVENT_ADMIN_ACCESS_TOKEN,
+  EVENT_SUB_ADMIN_ACCESS_TOKEN,
+} from "@/lib/helper";
 import { useRouter } from "next/router";
 
 type Props = {
   clubDetails: any;
+  isAdmin: boolean;
 };
 
 export default function ClubDetailsPage(props: Props) {
@@ -53,16 +59,18 @@ export default function ClubDetailsPage(props: Props) {
           </div>
         </div>
       </main>
-      <button
-        className={`absolute bottom-3 right-5 rounded-3xl px-4 py-2 bg-red-400 hover:bg-red-500 cursor-pointer`}
-        onClick={() => {
-          router.push({
-            pathname: `/clubs/${router.query.clubId}/newClubEvent`,
-          });
-        }}
-      >
-        Add New Event
-      </button>
+      {!props.isAdmin && (
+        <button
+          className={`absolute bottom-3 right-5 rounded-3xl px-4 py-2 bg-red-400 hover:bg-red-500 cursor-pointer`}
+          onClick={() => {
+            router.push({
+              pathname: `/clubs/${router.query.clubId}/newClubEvent`,
+            });
+          }}
+        >
+          Add New Event
+        </button>
+      )}
     </>
   );
 }
@@ -71,10 +79,16 @@ export async function getServerSideProps(context: any) {
   const { params, query, req, res } = context;
   const clubId = params?.clubId;
   const clubDetails = await fetchClubFullDetails(clubId);
+  const cookies = parse(req.headers.cookie || "");
+  const userAccessToken = cookies[EVENT_ADMIN_ACCESS_TOKEN];
+
+  let isAdmin = false;
+  if (userAccessToken) isAdmin = true;
 
   return {
     props: {
       clubDetails: clubDetails,
+      isAdmin: isAdmin,
     },
   };
 }

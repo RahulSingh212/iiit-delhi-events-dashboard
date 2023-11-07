@@ -46,33 +46,33 @@ async function handler(req: any, res: any) {
   }
 
   try {
-    if (authType === EMAIL_SIGNUP) {
-      if (userType === EVENT_USER_ADMIN) {
-        const adminDoc = await getDoc(
-          doc(db, EVENTS_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
-        );
-        if (!adminDoc.exists()) {
-          res.status(422).json({
-            userCredentials: null,
-            error: null,
-            message: "Email is not authorized to be an admin",
-          });
-          return;
-        }
-      } else if (userType === EVENT_USER_SUB_ADMIN) {
-        const subAdminDoc = await getDoc(
-          doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
-        );
-        if (!subAdminDoc.exists()) {
-          res.status(422).json({
-            userCredentials: null,
-            error: null,
-            message: "Email is not authorized to be a sub-admin",
-          });
-          return;
-        }
+    if (userType === EVENT_USER_ADMIN) {
+      const adminDoc = await getDoc(
+        doc(db, EVENTS_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
+      );
+      if (!adminDoc.exists()) {
+        res.status(422).json({
+          userCredentials: null,
+          error: null,
+          message: "Email is not authorized to be an admin",
+        });
+        return;
       }
+    } else if (userType === EVENT_USER_SUB_ADMIN) {
+      const subAdminDoc = await getDoc(
+        doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
+      );
+      if (!subAdminDoc.exists()) {
+        res.status(422).json({
+          userCredentials: null,
+          error: null,
+          message: "Email is not authorized to be a sub-admin",
+        });
+        return;
+      }
+    }
 
+    if (authType === EMAIL_SIGNUP) {
       const response = await createUserWithEmailAndPassword(
         auth,
         userEmail,
@@ -102,12 +102,13 @@ async function handler(req: any, res: any) {
           displayName
         );
       }
+
       res.setHeader(
         "Set-Cookie",
         cookie.serialize(
-          authType !== EVENT_USER_ADMIN
-            ? EVENT_SUB_ADMIN_ACCESS_TOKEN
-            : EVENT_ADMIN_ACCESS_TOKEN,
+          userType === EVENT_USER_ADMIN
+            ? EVENT_ADMIN_ACCESS_TOKEN
+            : EVENT_SUB_ADMIN_ACCESS_TOKEN,
           userAccessToken,
           {
             httpOnly: true,
@@ -121,7 +122,7 @@ async function handler(req: any, res: any) {
       res.status(201).json({
         userCredentials: response,
         error: null,
-        message: 'email verification completed successfully.'
+        message: "email verification completed successfully.",
       });
     }
     // else if (authType === EMAIL_LOGIN) {
@@ -136,9 +137,9 @@ async function handler(req: any, res: any) {
       res.setHeader(
         "Set-Cookie",
         cookie.serialize(
-          authType !== EVENT_USER_ADMIN
-            ? EVENT_SUB_ADMIN_ACCESS_TOKEN
-            : EVENT_ADMIN_ACCESS_TOKEN,
+          userType === EVENT_USER_ADMIN
+            ? EVENT_ADMIN_ACCESS_TOKEN
+            : EVENT_SUB_ADMIN_ACCESS_TOKEN,
           userAccessToken,
           {
             httpOnly: true,
@@ -152,7 +153,7 @@ async function handler(req: any, res: any) {
       res.status(201).json({
         userCredentials: response,
         error: null,
-        message: 'email verification completed successfully.'
+        message: "email verification completed successfully.",
       });
     }
   } catch (error) {

@@ -46,9 +46,13 @@ export const AuthCard = (props: Props) => {
   const [isPasswordVisible, setPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] =
     useState<boolean>(false);
-  const [userType, setUserType] = useState<string>(EVENT_USER_SUB_ADMIN);
+  const [userType, setUserType] = useState<string>("");
 
   const googleLoginHandler = async () => {
+    if (userType === "") {
+      alert("Please select the user type");
+      return;
+    }
     const userResponse = await googleAuthentication(userType);
     if (!userResponse.userCredentials && !userResponse.error) {
       setErrorMessage(String(userResponse.message));
@@ -63,8 +67,7 @@ export const AuthCard = (props: Props) => {
       setLoadingModel(true);
       if (userType === EVENT_USER_ADMIN) {
         router.replace("/h");
-      }
-      else {
+      } else {
         router.replace("/a");
       }
     }
@@ -72,6 +75,10 @@ export const AuthCard = (props: Props) => {
 
   const emailLoginHandler = async (event: any) => {
     event.preventDefault();
+    if (userType === "") {
+      alert("Please select the user type");
+      return;
+    }
 
     setLoadingModel(true);
 
@@ -99,16 +106,13 @@ export const AuthCard = (props: Props) => {
         const displayErrorMsg = await getErrorMessage(userResponse.error.code);
         setErrorMessage(String(displayErrorMsg));
         alert(displayErrorMsg);
-      }
-      else if (!userResponse.userCredentials) {
+      } else if (!userResponse.userCredentials) {
         alert(userResponse.message);
-      } 
-      else {
+      } else {
         setLoadingModel(true);
         if (userType === EVENT_USER_ADMIN) {
           router.replace("/h");
-        }
-        else {
+        } else {
           router.replace("/a");
         }
       }
@@ -146,9 +150,11 @@ export const AuthCard = (props: Props) => {
             <select
               value={userType}
               onChange={(event) => {
+                console.log(event.target.value);
                 setUserType(event.target.value);
               }}
             >
+              <option value={""}>Select User</option>
               <option value={EVENT_USER_ADMIN}>Admin</option>
               <option value={EVENT_USER_SUB_ADMIN}>Sub Admin</option>
             </select>
@@ -222,7 +228,7 @@ export const AuthCard = (props: Props) => {
           </form>
         </div>
 
-        <div
+        {/* <div
           className={`relative my-5 grid grid-cols-3 items-center align-middle w-full lg:w-[80%] xl:[60%] text-center`}
         >
           <hr className={`border-gray-400`} />
@@ -244,7 +250,7 @@ export const AuthCard = (props: Props) => {
           <button className={`text-gray-500`}>
             {isLogin ? "Log-in" : "Sign-up"} with Google
           </button>
-        </div>
+        </div> */}
 
         <div className={`relative w-full lg:w-[80%] xl:[60%] my-8`}>
           <hr className={`border-gray-400`} />
