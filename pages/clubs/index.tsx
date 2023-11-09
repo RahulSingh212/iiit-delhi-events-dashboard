@@ -36,6 +36,17 @@ export default function ClubsListPage(props: Props) {
           ))}
         </div>
       </main>
+
+      <button
+        className={`absolute bottom-2 right-2 rounded-3xl px-4 py-2 bg-red-400`}
+        onClick={() => {
+          router.push({
+            pathname: `/clubs/addNewClub`
+          });
+        }}
+      >
+        Add New Club
+      </button>
     </>
   );
 }

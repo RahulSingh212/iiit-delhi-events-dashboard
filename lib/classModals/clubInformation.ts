@@ -1,17 +1,9 @@
 export class EventInformation {
-  event_Id: string = "";
-  event_Address: string = "";
-  event_Authorized_Users_List: string[] = ["PAn72rdmxUQxmjjyrnrs6TEFLDb2"];
-  event_Club_Name: string = "";
-  event_Club_Id: string = "";
-  event_Created_At: string = "";
-  event_Created_By: string = "";
-  event_Name: string = "";
-  event_Description: string = "";
-  event_Start_Date: any = "";
-  event_End_Date: any = "";
-  event_Start_Time: any = "";
-  event_End_Time: any = "";
-  event_Location_Url: string = "";
-  event_Logo_Url: string = "";
-}
+  club_Id: string = "";
+  club_Created_At: any = "";
+  club_Name: string = "";
+  club_Description: string = "";
+  club_Logo_Url: string = "";
+  club_Events_List: any[] = [];
+  club_Authorized_Users: any = {};
+};
