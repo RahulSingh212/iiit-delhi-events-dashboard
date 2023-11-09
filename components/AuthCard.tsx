@@ -126,6 +126,7 @@ export const AuthCard = (props: Props) => {
   return (
     <div
       className={`relative w-[90%] sm:w-[95%] md:w-[60%] lg:w-[45%] xl:w-[37.5%] flex justify-between shadow-2xl rounded-2xl my-8 p-5 bg-gray-100 mx-auto`}
+      data-testid="auth-card"
     >
       <div
         className={`relative flex flex-col w-full h-full items-center justify-center`}
