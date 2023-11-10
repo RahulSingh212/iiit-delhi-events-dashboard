@@ -67,6 +67,7 @@ export const createNewIndependentEvent = async (
         event_Created_By: userUniqueId,
         event_Created_Email: userEmailId,
         event_Name: eventInfo.event_Name,
+        event_Discussion_List: [],
         event_Description: eventInfo.event_Description,
         event_Start_Date: String(eventInfo.event_Start_Date),
         event_End_Date: String(eventInfo.event_End_Date),
@@ -146,6 +147,7 @@ export const createNewEventForClub = async (eventInfo: EventInformation) => {
         event_Created_By: userUniqueId,
         event_Created_Email: userEmailId,
         event_Name: eventInfo.event_Name,
+        event_Discussion_List: [],
         event_Description: eventInfo.event_Description,
         event_Start_Date: eventInfo.event_Start_Date,
         event_End_Date: eventInfo.event_End_Date,
@@ -183,5 +185,3 @@ export const createNewEventForClub = async (eventInfo: EventInformation) => {
     };
   }
 };
-
-export const createNewClubHandler = async (clubDetails: any) => {};

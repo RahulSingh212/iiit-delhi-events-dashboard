@@ -121,7 +121,7 @@ export const createNewIndependentClubHandler = async (
           subAdmin_Authorization: false,
           EVENT_SUB_ADMIN_ACCESS_TOKEN: "",
           subAdmin_Auth_Type: "email",
-          subAdmin_Display_Name: "",
+          subAdmin_Display_Name: adminEmail.split("@")[0],
           subAdmin_First_Name: "",
           subAdmin_Middle_Name: "",
           subAdmin_Last_Name: "",
@@ -129,7 +129,7 @@ export const createNewIndependentClubHandler = async (
           subAdmin_Image_Url: "",
           subAdmin_Mobile_Number: "",
           subAdmin_Alternate_Mobile_Number: "",
-          subAdmin_Email_Id: "",
+          subAdmin_Email_Id: adminEmail,
           subAdmin_Events_List: [],
           subAdmin_Clubs_List: [club.id],
         }
