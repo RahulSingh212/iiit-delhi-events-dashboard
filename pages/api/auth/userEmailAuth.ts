@@ -96,7 +96,7 @@ async function handler(req: any, res: any) {
         const subAdminDoc = await getDoc(
           doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
         );
-        if (subAdminDoc.exists()) {
+        if (subAdminDoc.exists() && !subAdminDoc.data()?.subAdmin_Authorization) {
           await updateDoc(
             doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail),
             {
