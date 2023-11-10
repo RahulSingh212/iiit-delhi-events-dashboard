@@ -1,4 +1,4 @@
-export class EventInformation {
+export class ClubInformation {
   club_Id: string = "";
   club_Created_At: any = "";
   club_Name: string = "";

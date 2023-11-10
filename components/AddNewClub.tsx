@@ -1,16 +1,40 @@
 import { useState } from "react";
 import Image from "next/image";
 import { TextContainer } from "./feildContainers/TextContainer";
+import { ClubInformation } from "@/lib/classModals/clubInformation";
+import { createNewIndependentClubHandler } from "@/lib/firebase/clubsHandler";
+import { useRouter } from "next/router";
 
 type Props = {};
 
 export const AddNewClub = (props: Props) => {
+  const router = useRouter();
   const [clubName, setClubName] = useState<string>("");
   const [clubDescription, setClubDescription] = useState<string>("");
-  const [eventImageUrl, setEventImageUrl] = useState<string>("");
+  const [clubImageUrl, setClubImageUrl] = useState<string>("");
+  const [adminEmail, setAdminEmail] = useState<string>("");
 
   const submitClubHandler = async () => {
-    
+
+    let clubInfo = new ClubInformation();
+    clubInfo.club_Name = clubName;
+    clubInfo.club_Description = clubDescription;
+    clubInfo.club_Logo_Url = clubImageUrl;
+
+    const response: any = await createNewIndependentClubHandler(
+      clubInfo,
+      adminEmail
+    );
+
+    if (response.status) {
+      alert(response.message);
+      router.replace({
+        pathname: `/clubs`,
+      });
+    }
+    else {
+      alert(response.message);
+    }
   }
 
   return (
@@ -30,10 +54,16 @@ export const AddNewClub = (props: Props) => {
           value={clubDescription}
           setHandler={setClubDescription}
         />
+        <TextContainer
+          title={`Club Admin Email`}
+          placeholder={`Enter the email-id of admin of the club`}
+          value={adminEmail}
+          setHandler={setAdminEmail}
+        />
         <div className={`relative w-full flex flex-row space-x-3`}>
           <Image
             alt={`image`}
-            src={eventImageUrl === "" ? "/icons/gallery.svg" : ""}
+            src={clubImageUrl === "" ? "/icons/gallery.svg" : ""}
             className={`mx-auto w-24 h-24`}
             width={10}
             height={10}
@@ -41,8 +71,8 @@ export const AddNewClub = (props: Props) => {
           <TextContainer
             title={`Club Image Url`}
             placeholder={`Enter the image url of the club`}
-            value={eventImageUrl}
-            setHandler={setEventImageUrl}
+            value={clubImageUrl}
+            setHandler={setClubImageUrl}
           />
         </div>
       </div>

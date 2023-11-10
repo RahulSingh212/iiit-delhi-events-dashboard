@@ -1,7 +1,20 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from ".";
-import { CLUBS_INFORMATION_COLLECTION_NAME } from "../helper";
+import {
+  CLUBS_INFORMATION_COLLECTION_NAME,
+  EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME,
+} from "../helper";
 import { fetchEventInfo } from "./eventsHandler";
+import { fetchLoggedInUserInfo } from "./userHandler";
+import { ClubInformation } from "../classModals/clubInformation";
 
 export const fetchClubFullDetails = async (clubId: string) => {
   const clubDoc = doc(db, CLUBS_INFORMATION_COLLECTION_NAME, clubId);
@@ -55,4 +68,84 @@ export const fetchClubsInfoList = async (): Promise<any[]> => {
   return list;
 };
 
-export const createNewClubHandler = async (clubDetails: any) => {};
+export const createNewIndependentClubHandler = async (
+  clubDetails: ClubInformation,
+  adminEmail: string
+): Promise<any> => {
+  // const userAccessTokenObject = await fetchLoggedInUserInfo(false);
+  // const userEmailId = userAccessTokenObject.userCredentials.payload.email;
+  // const userUniqueId = userAccessTokenObject.userCredentials.payload.user_id;
+
+  try {
+    const club = await addDoc(
+      collection(db, CLUBS_INFORMATION_COLLECTION_NAME),
+      {
+        club_Id: "",
+        club_Created_At: new Date(),
+        club_Created_By: "userUniqueId",
+        club_Created_Email: "userEmailId",
+        club_Authorized_Users: {
+          [adminEmail]: true,
+        },
+        club_Events_List: [],
+        club_Name: clubDetails.club_Name,
+        club_Description: clubDetails.club_Description,
+        club_Logo_Url: clubDetails.club_Logo_Url,
+      }
+    );
+
+    const docRef = doc(db, CLUBS_INFORMATION_COLLECTION_NAME, club.id);
+    const response = await updateDoc(docRef, {
+      club_Id: club.id,
+    });
+
+    const adminDoc = await getDoc(
+      doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, adminEmail)
+    );
+
+    if (adminDoc.exists()) {
+      const response = await updateDoc(
+        doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, adminEmail),
+        {
+          subAdmin_Clubs_List: [
+            ...adminDoc.data()?.subAdmin_Clubs_List,
+            club.id,
+          ],
+        }
+      );
+    } else {
+      const response = await setDoc(
+        doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, adminEmail),
+        {
+          subAdmin_Id: "",
+          subAdmin_Authorization: false,
+          EVENT_SUB_ADMIN_ACCESS_TOKEN: "",
+          subAdmin_Auth_Type: "email",
+          subAdmin_Display_Name: "",
+          subAdmin_First_Name: "",
+          subAdmin_Middle_Name: "",
+          subAdmin_Last_Name: "",
+          subAdmin_Gender: "",
+          subAdmin_Image_Url: "",
+          subAdmin_Mobile_Number: "",
+          subAdmin_Alternate_Mobile_Number: "",
+          subAdmin_Email_Id: "",
+          subAdmin_Events_List: [],
+          subAdmin_Clubs_List: [club.id],
+        }
+      );
+    }
+
+    return {
+      status: true,
+      message: "New club added successfully.",
+      val: club.id,
+    };
+  } catch (erro: any) {
+    return {
+      status: true,
+      message: "Something went wrong. Please try again.",
+      val: "",
+    };
+  }
+};
