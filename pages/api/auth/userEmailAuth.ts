@@ -20,7 +20,7 @@ import {
   EVENTS_ADMIN_INFORMATION_COLLECTION_NAME,
   EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME,
 } from "@/lib/helper";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 async function handler(req: any, res: any) {
   // req.body.token
@@ -93,14 +93,31 @@ async function handler(req: any, res: any) {
           displayName
         );
       } else {
-        const dbResponse = await createSubAdminUserAccount(
-          userAccessToken,
-          userId,
-          userEmail,
-          "",
-          "email",
-          displayName
+        const subAdminDoc = await getDoc(
+          doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail)
         );
+        if (subAdminDoc.exists()) {
+          await updateDoc(
+            doc(db, EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME, userEmail),
+            {
+              subAdmin_Id: userId,
+              subAdmin_Authorization: true,
+              EVENT_SUB_ADMIN_ACCESS_TOKEN: userAccessToken,
+              subAdmin_Display_Name: displayName,
+              subAdmin_Email_Id: userEmail,
+            }
+          );
+        }
+        else {
+          const dbResponse = await createSubAdminUserAccount(
+            userAccessToken,
+            userId,
+            userEmail,
+            "",
+            "email",
+            displayName
+          );
+        }
       }
 
       res.setHeader(
