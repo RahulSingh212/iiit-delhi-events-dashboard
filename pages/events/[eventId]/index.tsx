@@ -3,6 +3,8 @@ import {
   deleteEvent,
   fetchEventFullDetails,
 } from "@/lib/firebase/eventsHandler";
+import moment from "moment";
+import { format } from "date-fns";
 import { EVENT_ADMIN_ACCESS_TOKEN, UPDATE_EVENT } from "@/lib/helper";
 import { useRouter } from "next/router";
 import { getSubEventsList } from "@/lib/firebase/subEventsHandler";
@@ -35,6 +37,7 @@ export default function EventDetailsPage(props: Props) {
       }
     }
   };
+
   return (
     <>
       <main className={`relative w-screen`}>
@@ -72,6 +75,16 @@ export default function EventDetailsPage(props: Props) {
             tileText={props.eventDetails.event_Location_Url}
             placeHolderText={"Event location url"}
             descriptionText={"Enter the location url of the event"}
+            inputType={"text"}
+          />
+          <InfoTile
+            isEditable={!props.isAdmin}
+            handlerType={UPDATE_EVENT}
+            firebaseHeaderName={"event_Logo_Url"}
+            headerText={"Event Logo URL"}
+            tileText={props.eventDetails.event_Logo_Url}
+            placeHolderText={"Event logo url"}
+            descriptionText={"Enter the logo url of the event"}
             inputType={"text"}
           />
         </div>

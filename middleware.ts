@@ -21,7 +21,8 @@ export function middleware(req: NextRequest, res: NextResponse) {
     if (
       !req.nextUrl.pathname.startsWith("/h") &&
       !req.nextUrl.pathname.startsWith("/profile") &&
-      !req.nextUrl.pathname.startsWith("/clubs")
+      !req.nextUrl.pathname.startsWith("/clubs") &&
+      !req.nextUrl.pathname.startsWith("/events")
     ) {
       return NextResponse.redirect(new URL("/h", req.url));
     }
