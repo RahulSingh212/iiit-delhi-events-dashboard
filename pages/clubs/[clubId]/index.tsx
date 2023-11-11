@@ -1,7 +1,7 @@
 import { parse } from "cookie";
 import { fetchClubFullDetails } from "@/lib/firebase/clubsHandler";
 import {
-  CLUB,
+  UPDATE_CLUB,
   EVENT_ADMIN_ACCESS_TOKEN,
   EVENT_SUB_ADMIN_ACCESS_TOKEN,
 } from "@/lib/helper";
@@ -28,7 +28,7 @@ export default function ClubDetailsPage(props: Props) {
             Club Details
           </span>
           <InfoTile
-            handlerType={CLUB}
+            handlerType={UPDATE_CLUB}
             firebaseHeaderName={"club_Name"}
             headerText={"Club Name"}
             tileText={props.clubDetails.club_Name}
@@ -37,7 +37,7 @@ export default function ClubDetailsPage(props: Props) {
             inputType={"text"}
           />
           <InfoTile
-            handlerType={CLUB}
+            handlerType={UPDATE_CLUB}
             firebaseHeaderName={"club_Description"}
             headerText={"Club Description"}
             tileText={props.clubDetails.club_Description}

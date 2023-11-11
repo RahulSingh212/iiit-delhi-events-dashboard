@@ -3,13 +3,15 @@ import {
   deleteEvent,
   fetchEventFullDetails,
 } from "@/lib/firebase/eventsHandler";
-import { EVENT_ADMIN_ACCESS_TOKEN } from "@/lib/helper";
+import { EVENT_ADMIN_ACCESS_TOKEN, UPDATE_EVENT } from "@/lib/helper";
 import { useRouter } from "next/router";
 import { getSubEventsList } from "@/lib/firebase/subEventsHandler";
+import InfoTile from "@/components/feildContainers/InfoTile";
+import { EventInformation } from "@/lib/classModals/eventInformation";
 
 type Props = {
   isAdmin: boolean;
-  eventDetails: any;
+  eventDetails: EventInformation;
   subEventsList: any[];
 };
 
@@ -36,14 +38,41 @@ export default function EventDetailsPage(props: Props) {
   return (
     <>
       <main className={`relative w-screen`}>
-        <div className={`relative w-[95%] mx-auto mt-3`}>
+        <div className={`relative w-[95%] mx-auto mt-5 space-y-2`}>
           <span
-            className={`relative w-full px-1 py-3 text-semibold font-mono text-2xl font-semibold`}
+            className={`relative w-full text-center flex text-3xl font-serif justify-center mb-4`}
           >
-            {props.eventDetails.event_Name}
+            Event Details
           </span>
+          <InfoTile
+            handlerType={UPDATE_EVENT}
+            firebaseHeaderName={"event_Name"}
+            headerText={"Event Name"}
+            tileText={props.eventDetails.event_Name}
+            placeHolderText={"Event Name"}
+            descriptionText={"Enter the name of the event"}
+            inputType={"text"}
+          />
+          <InfoTile
+            handlerType={UPDATE_EVENT}
+            firebaseHeaderName={"event_Description"}
+            headerText={"Event Description"}
+            tileText={props.eventDetails.event_Description}
+            placeHolderText={"Event Description"}
+            descriptionText={"Enter the description of the event"}
+            inputType={"text"}
+          />
+          <InfoTile
+            handlerType={UPDATE_EVENT}
+            firebaseHeaderName={"event_Location_Url"}
+            headerText={"Event Location URL"}
+            tileText={props.eventDetails.event_Location_Url}
+            placeHolderText={"Event location url"}
+            descriptionText={"Enter the location url of the event"}
+            inputType={"text"}
+          />
         </div>
-        <div className={`relative  w-[95%] mx-auto flex flex-col my-2`}>
+        <div className={`relative  w-[95%] mx-auto flex flex-col mb-2 mt-5`}>
           <span className={`relative w-full text-xl font-medium mb-2`}>
             Sub events:
           </span>

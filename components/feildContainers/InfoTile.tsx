@@ -1,4 +1,4 @@
-import { CLUB } from "@/lib/helper";
+import { UPDATE_CLUB, UPDATE_EVENT } from "@/lib/helper";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -34,15 +34,43 @@ export const updateClubDetailsHandler = async (
   return data;
 };
 
+export const updateEventDetailsHandler = async (
+  eventId: string,
+  header: string,
+  value: string
+) => {
+  const response = await fetch("/api/event/updateEventInfo", {
+    method: "POST",
+    body: JSON.stringify({
+      eventId: eventId,
+      keyVal: header,
+      value: value,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  // console.log(data);
+  return data;
+};
+
 export default function InfoTile(props: Props) {
   const router = useRouter();
   const [editBtn, setEditBtn] = React.useState<boolean>(false);
   const [inputValue, setInputValue] = React.useState<string>(props.tileText);
 
   const saveTextHandler = async () => {
-    if (props.handlerType === CLUB) {
+    if (props.handlerType === UPDATE_CLUB) {
       const responseData = await updateClubDetailsHandler(
         router.query.clubId + "",
+        props.firebaseHeaderName,
+        inputValue
+      );
+    } else if (props.handlerType === UPDATE_EVENT) {
+      const responseData = await updateEventDetailsHandler(
+        router.query.eventId + "",
         props.firebaseHeaderName,
         inputValue
       );
