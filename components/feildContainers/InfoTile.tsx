@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 type Props = {
+  isEditable: boolean;
   handlerType: string;
   firebaseHeaderName: string;
   headerText: string;

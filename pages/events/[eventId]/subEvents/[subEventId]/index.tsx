@@ -41,14 +41,12 @@ export default function SubEventPage(props: Props) {
           </span>
         </div>
       </main>
-      {!props.isAdmin && (
-        <button
-          className={`absolute bottom-3 right-3 font-semibold px-4 py-2 rounded-3xl bg-red-400 text-white`}
-          onClick={deleteSubEventHandler}
-        >
-          Delete sub event
-        </button>
-      )}
+      <button
+        className={`absolute bottom-3 right-3 font-semibold px-4 py-2 rounded-3xl bg-red-400 text-white`}
+        onClick={deleteSubEventHandler}
+      >
+        Delete sub event
+      </button>
     </>
   );
 }

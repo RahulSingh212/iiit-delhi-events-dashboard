@@ -28,6 +28,7 @@ export default function ClubDetailsPage(props: Props) {
             Club Details
           </span>
           <InfoTile
+            isEditable={props.isAdmin}
             handlerType={UPDATE_CLUB}
             firebaseHeaderName={"club_Name"}
             headerText={"Club Name"}
@@ -37,6 +38,7 @@ export default function ClubDetailsPage(props: Props) {
             inputType={"text"}
           />
           <InfoTile
+            isEditable={props.isAdmin}
             handlerType={UPDATE_CLUB}
             firebaseHeaderName={"club_Description"}
             headerText={"Club Description"}

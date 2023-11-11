@@ -45,6 +45,7 @@ export default function EventDetailsPage(props: Props) {
             Event Details
           </span>
           <InfoTile
+            isEditable={!props.isAdmin}
             handlerType={UPDATE_EVENT}
             firebaseHeaderName={"event_Name"}
             headerText={"Event Name"}
@@ -54,6 +55,7 @@ export default function EventDetailsPage(props: Props) {
             inputType={"text"}
           />
           <InfoTile
+            isEditable={!props.isAdmin}
             handlerType={UPDATE_EVENT}
             firebaseHeaderName={"event_Description"}
             headerText={"Event Description"}
@@ -63,6 +65,7 @@ export default function EventDetailsPage(props: Props) {
             inputType={"text"}
           />
           <InfoTile
+            isEditable={!props.isAdmin}
             handlerType={UPDATE_EVENT}
             firebaseHeaderName={"event_Location_Url"}
             headerText={"Event Location URL"}
@@ -106,14 +109,12 @@ export default function EventDetailsPage(props: Props) {
           Add sub event
         </button>
       )}
-      {!props.isAdmin && (
-        <button
-          className={`absolute bottom-3 left-3 font-semibold px-4 py-2 rounded-3xl bg-red-400 text-white`}
-          onClick={deleteEventHandler}
-        >
-          Delete event
-        </button>
-      )}
+      <button
+        className={`absolute bottom-3 left-3 font-semibold px-4 py-2 rounded-3xl bg-red-400 text-white`}
+        onClick={deleteEventHandler}
+      >
+        Delete event
+      </button>
     </>
   );
 }

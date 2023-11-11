@@ -157,7 +157,7 @@ export const AuthCard = (props: Props) => {
             >
               <option value={""}>Select User</option>
               <option value={EVENT_USER_ADMIN}>Admin</option>
-              <option value={EVENT_USER_SUB_ADMIN}>Sub Admin</option>
+              <option value={EVENT_USER_SUB_ADMIN}>Club Admin</option>
             </select>
           </div>
         </div>
