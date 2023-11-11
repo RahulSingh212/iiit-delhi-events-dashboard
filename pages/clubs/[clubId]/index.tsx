@@ -1,13 +1,16 @@
 import { parse } from "cookie";
 import { fetchClubFullDetails } from "@/lib/firebase/clubsHandler";
 import {
+  CLUB,
   EVENT_ADMIN_ACCESS_TOKEN,
   EVENT_SUB_ADMIN_ACCESS_TOKEN,
 } from "@/lib/helper";
 import { useRouter } from "next/router";
+import InfoTile from "@/components/feildContainers/InfoTile";
+import { ClubInformation } from "@/lib/classModals/clubInformation";
 
 type Props = {
-  clubDetails: any;
+  clubDetails: ClubInformation;
   isAdmin: boolean;
 };
 
@@ -16,12 +19,32 @@ export default function ClubDetailsPage(props: Props) {
   return (
     <>
       <main className={`relative w-screen`}>
-        <div className={`relative w-[95%] flex flex-col mx-auto mt-2`}>
+        <div
+          className={`relative w-[95%] flex flex-col mx-auto mt-5 space-y-2`}
+        >
           <span
-            className={`relative w-full px-1 py-3 text-semibold font-mono text-2xl`}
+            className={`relative w-full text-center flex text-3xl font-serif justify-center mb-4`}
           >
-            {props.clubDetails.club_Name}
+            Club Details
           </span>
+          <InfoTile
+            handlerType={CLUB}
+            firebaseHeaderName={"club_Name"}
+            headerText={"Club Name"}
+            tileText={props.clubDetails.club_Name}
+            placeHolderText={"Club Name"}
+            descriptionText={"Enter the name of the club"}
+            inputType={"text"}
+          />
+          <InfoTile
+            handlerType={CLUB}
+            firebaseHeaderName={"club_Description"}
+            headerText={"Club Description"}
+            tileText={props.clubDetails.club_Description}
+            placeHolderText={"Club Name"}
+            descriptionText={"Enter the name of the club"}
+            inputType={"text"}
+          />
         </div>
         <div className={`relative w-[95%] flex flex-col mx-auto my-2`}>
           <span

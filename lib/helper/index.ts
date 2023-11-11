@@ -6,6 +6,7 @@ export const EVENT_USER_ADMIN = "EVENT-ADMIN";
 export const EVENT_USER_SUB_ADMIN = "EVENT-SUB-ADMIN";
 
 // Event Type
+export const CLUB = "CLUB";
 export const EVENT_CLUB = "CLUB_EVENT";
 export const EVENT_INDEPENDENT = "CLUB_INDEPENDENT";
 export const SUB_EVENT = "SUB_EVENT";
