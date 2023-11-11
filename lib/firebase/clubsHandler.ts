@@ -149,3 +149,36 @@ export const createNewIndependentClubHandler = async (
     };
   }
 };
+
+export const updateClubInfo = async (
+  clubId: string,
+  keyVal: string,
+  value: any
+) => {
+  try {
+    const clubDoc = doc(db, CLUBS_INFORMATION_COLLECTION_NAME, clubId);
+    const clubInfo = await getDoc(clubDoc);
+    if (!clubInfo.exists()) {
+      return {
+        status: false,
+        message: `Club-id does not exist. Please try again.`,
+        val: "",
+      };
+    } else {
+      const response = await updateDoc(clubDoc, {
+        [keyVal]: value,
+      });
+      return {
+        status: true,
+        message: `${keyVal} updated successfully.`,
+        val: "",
+      };
+    }
+  } catch (error: any) {
+    return {
+      status: false,
+      message: `Something went wrong. Please try again.`,
+      val: "",
+    };
+  }
+};

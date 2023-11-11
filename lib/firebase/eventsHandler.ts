@@ -1,12 +1,22 @@
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from ".";
 import {
   CLUBS_INFORMATION_COLLECTION_NAME,
   EVENTS_INFORMATION_COLLECTION_NAME,
   EVENTS_SUB_ADMIN_INFORMATION_COLLECTION_NAME,
+  SUB_EVENTS_INFORMATION_COLLECTION_NAME,
 } from "../helper";
 import { EventInformation } from "../classModals/eventInformation";
 import { fetchLoggedInUserInfo } from "./userHandler";
+import { updateClubInfo } from "./clubsHandler";
+import { fetchSubAdminInfo, updateSubAdminInfo } from "./subAdminHandler";
 
 export const fetchEventFullDetails = async (eventId: string) => {
   const eventDoc = doc(db, EVENTS_INFORMATION_COLLECTION_NAME, eventId);
@@ -182,6 +192,107 @@ export const createNewEventForClub = async (eventInfo: EventInformation) => {
       status: false,
       message: "Something went wrong. Please try again.",
       val: error.message,
+    };
+  }
+};
+
+export const deleteEvent = async (eventName: string, eventId: string) => {
+  const userAccessTokenObject = await fetchLoggedInUserInfo(false);
+  const userEmailId = userAccessTokenObject.userCredentials.payload.email;
+  const userUniqueId = userAccessTokenObject.userCredentials.payload.user_id;
+  try {
+    const eventDoc = doc(db, EVENTS_INFORMATION_COLLECTION_NAME, eventId);
+    const eventInfo = await getDoc(eventDoc);
+    if (!eventInfo.exists()) {
+      return {
+        status: false,
+        message: `Event-id does not exist. Please try again.`,
+        val: "",
+      };
+    } else {
+      const clubId = eventInfo.data()?.club_Id;
+      if (clubId && clubId !== "") {
+        const clubDoc = doc(db, CLUBS_INFORMATION_COLLECTION_NAME, clubId);
+        const clubInfo = await getDoc(clubDoc);
+        if (clubInfo.exists()) {
+          let club_Events_List = clubInfo.data()?.club_Events_List;
+          let finalList: any[] = [];
+          for (let i = 0; i < club_Events_List.length; i++) {
+            let cId = club_Events_List[i];
+            if (cId !== clubId) {
+              finalList.push(cId);
+            }
+          }
+
+          const res = await updateClubInfo(
+            clubId,
+            "club_Events_List",
+            finalList
+          );
+        }
+      }
+
+      const listRes: any = await fetchSubAdminInfo("subAdmin_Events_List");
+      if (listRes.status) {
+        let nList = listRes.val;
+        let finalList: any[] = [];
+        for (let i = 0; i < nList.length; i++) {
+          let eId = nList[i];
+          if (eId !== eventId) {
+            finalList.push(eId);
+          }
+        }
+        const updateRes = await updateSubAdminInfo(
+          "subAdmin_Events_List",
+          finalList
+        );
+      }
+
+      const response = await deleteDoc(eventDoc);
+      return {
+        status: true,
+        message: `${eventName} deleted successfully.`,
+        val: "",
+      };
+    }
+  } catch (erro: any) {
+    return {
+      status: false,
+      message: "Something went wrong. Please try again.",
+      val: "",
+    };
+  }
+};
+
+export const updateEventInfo = async (
+  eventId: string,
+  keyVal: string,
+  value: any
+) => {
+  try {
+    const eventDoc = doc(db, EVENTS_INFORMATION_COLLECTION_NAME, eventId);
+    const eventInfo = await getDoc(eventDoc);
+    if (!eventInfo.exists()) {
+      return {
+        status: false,
+        message: `Event-id does not exist. Please try again.`,
+        val: "",
+      };
+    } else {
+      const response = await updateDoc(eventDoc, {
+        [keyVal]: value,
+      });
+      return {
+        status: true,
+        message: `${keyVal} updated successfully.`,
+        val: "",
+      };
+    }
+  } catch (error: any) {
+    return {
+      status: false,
+      message: `Something went wrong. Please try again.`,
+      val: "",
     };
   }
 };
