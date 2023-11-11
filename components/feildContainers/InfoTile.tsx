@@ -92,19 +92,21 @@ export default function InfoTile(props: Props) {
           >
             {props.headerText}
           </div>
-          <div
-            onClick={() => {
-              if (editBtn) {
-                setInputValue(props.tileText);
-              }
-              setEditBtn(!editBtn);
-            }}
-            className={`relative flex items-center p-1 rounded-3xl bg-slate-400 ${
-              editBtn ? `px-3` : "px-5"
-            } py-1 text-white cursor-pointer text-sm font-medium`}
-          >
-            {editBtn ? "Cancel" : inputValue.length === 0 ? "Add" : "Edit"}
-          </div>
+          {props.isEditable && (
+            <div
+              onClick={() => {
+                if (editBtn) {
+                  setInputValue(props.tileText);
+                }
+                setEditBtn(!editBtn);
+              }}
+              className={`relative flex items-center p-1 rounded-3xl bg-slate-400 ${
+                editBtn ? `px-3` : "px-5"
+              } py-1 text-white cursor-pointer text-sm font-medium`}
+            >
+              {editBtn ? "Cancel" : inputValue.length === 0 ? "Add" : "Edit"}
+            </div>
+          )}
         </div>
         {!editBtn && (
           <div className={`text-lg text-gray-500`}>
