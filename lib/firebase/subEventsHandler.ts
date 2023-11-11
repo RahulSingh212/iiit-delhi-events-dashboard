@@ -15,6 +15,84 @@ import { db } from ".";
 import { SubEventInformation } from "../classModals/eventInformation";
 import { fetchLoggedInUserInfo } from "./userHandler";
 
+export const fetchSubEventFullDetails = async (
+  eventId: string,
+  subEventId: string
+) => {
+  const subEventDoc = doc(
+    db,
+    EVENTS_INFORMATION_COLLECTION_NAME,
+    eventId,
+    SUB_EVENTS_INFORMATION_COLLECTION_NAME,
+    subEventId
+  );
+  const subEventInfo = await getDoc(subEventDoc);
+
+  if (!subEventInfo.exists()) return null;
+
+  const eventObj = {
+    subEvent_Id: subEventInfo.id,
+    subEvent_Club_Id: subEventInfo.data()?.subEvent_Club_Id,
+    subEvent_Event_Id: subEventInfo.data()?.subEvent_Event_Id,
+    subEvent_Name: subEventInfo.data()?.subEvent_Name,
+    subEvent_Description: subEventInfo.data()?.subEvent_Description,
+    subEvent_Address: subEventInfo.data()?.subEvent_Address,
+    subEvent_Location_Url: subEventInfo.data()?.subEvent_Location_Url,
+    subEvent_Logo_Url: subEventInfo.data()?.subEvent_Logo_Url,
+    subEvent_Start_Date: subEventInfo.data()?.subEvent_Start_Date,
+    subEvent_End_Date: subEventInfo.data()?.subEvent_End_Date,
+    subEvent_Start_Time: subEventInfo.data()?.subEvent_Start_Time,
+    subEvent_End_Time: subEventInfo.data()?.subEvent_End_Time,
+    subEvent_Created_At: subEventInfo.data()?.subEvent_Created_At,
+    subEvent_Created_By: subEventInfo.data()?.subEvent_Created_By,
+  };
+
+  return eventObj;
+};
+
+export const fetchSubEventInfo = async (
+  eventId: string,
+  subEventId: string
+) => {
+  const subEventDoc = doc(
+    db,
+    EVENTS_INFORMATION_COLLECTION_NAME,
+    eventId,
+    SUB_EVENTS_INFORMATION_COLLECTION_NAME,
+    subEventId
+  );
+  const subEventInfo = await getDoc(subEventDoc);
+
+  if (!subEventInfo.exists()) return null;
+  const eventObj = {
+    subEvent_Id: subEventInfo.id,
+    subEvent_Name: subEventInfo.data()?.subEvent_Name,
+    subEvent_Description: subEventInfo.data()?.subEvent_Description,
+    subEvent_Logo_Url: subEventInfo.data()?.subEvent_Logo_Url,
+  };
+
+  return eventObj;
+};
+
+export const getSubEventsList = async (eventId: string) => {
+  const subEventCol = collection(
+    db,
+    EVENTS_INFORMATION_COLLECTION_NAME,
+    eventId,
+    SUB_EVENTS_INFORMATION_COLLECTION_NAME
+  );
+  const subEventQuery = await getDocs(subEventCol);
+  let seList: any[] = [];
+  for (let se of subEventQuery.docs) {
+    let obj = await fetchSubEventInfo(eventId, se.id);
+    if (obj !== null) {
+      seList.push(obj);
+    }
+  }
+
+  return seList;
+};
+
 export const createNewSubEvent = async (
   subEventInfo: SubEventInformation,
   isAdmin: boolean = false
@@ -58,7 +136,7 @@ export const createNewSubEvent = async (
       SUB_EVENTS_INFORMATION_COLLECTION_NAME,
       subEvent.id
     );
-    
+
     const response = await updateDoc(docRef, {
       subEvent_Id: subEvent.id,
     });

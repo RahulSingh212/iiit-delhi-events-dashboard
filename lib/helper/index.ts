@@ -8,6 +8,7 @@ export const EVENT_USER_SUB_ADMIN = "EVENT-SUB-ADMIN";
 // Event Type
 export const EVENT_CLUB = "CLUB_EVENT";
 export const EVENT_INDEPENDENT = "CLUB_INDEPENDENT";
+export const SUB_EVENT = "SUB_EVENT";
 
 // Collection Names
 export const CLUBS_INFORMATION_COLLECTION_NAME = "CLUBS-DETAILS-INFORMATION";

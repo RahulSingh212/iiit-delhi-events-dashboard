@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { EventInformation } from "@/lib/classModals/eventInformation";
+import { EventInformation, SubEventInformation } from "@/lib/classModals/eventInformation";
 import {
   createNewEventForClub,
   createNewIndependentEvent,
@@ -11,7 +11,8 @@ import { DateBox } from "./feildContainers/DateBox";
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
-import { EVENT_CLUB, EVENT_INDEPENDENT } from "@/lib/helper";
+import { EVENT_CLUB, EVENT_INDEPENDENT, SUB_EVENT } from "@/lib/helper";
+import { createNewSubEvent } from "@/lib/firebase/subEventsHandler";
 
 type Props = {
   eventType: string;
@@ -79,12 +80,38 @@ export const AddNewEvent = (props: Props) => {
     }
   };
 
+  const addSubEventHandler = async () => {
+    let se = new SubEventInformation();
+    se.subEvent_Event_Id = router.query.eventId+"";
+    se.subEvent_Name = eventName;
+    se.subEvent_Description = eventDescription;
+    se.subEvent_Address = eventLocation;
+    se.subEvent_Location_Url = eventMapUrl;
+    se.subEvent_Logo_Url = eventImageUrl;
+    se.subEvent_Start_Date = eventStartDate;
+    se.subEvent_End_Date = eventEndDate;
+    se.subEvent_Start_Time = eventStartTime;
+    se.subEvent_End_Time = eventEndTime;
+
+    const response: any = await createNewSubEvent(se, false);
+    alert(response.message);
+    if (response.status) {
+      router.replace({
+        pathname: `/a`
+        // pathname: `/events/${router.query.eventId}/subEvents/${response.val}`
+      });
+    }
+  }
+
   const submitEventHandler = async () => {
     if (props.eventType === EVENT_CLUB) {
       await addClubEventHandler();
     } else if (props.eventType === EVENT_INDEPENDENT) {
       addIndEventHandler();
-    } else {
+    } if (props.eventType === SUB_EVENT) {
+      addSubEventHandler();
+    }
+    else {
     }
   };
 
