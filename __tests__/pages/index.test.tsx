@@ -1,13 +1,26 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import HomePage from '../../pages/index'; // Replace with your actual file path
+import { render, screen } from '@testing-library/react';
+import HomePage from '../../pages/index';
 
-test('renders the HomePage component', () => {
-  const { container } = render(<HomePage />);
+describe('HomePage', () => {
+  it('renders the home page with the correct content', () => {
+    render(<HomePage />);
 
-  // You can access the container element and make assertions about its content.
-  // For example, let's check if it contains the "Home" text.
-  expect(container.innerHTML).toContain('Home');
-  
-  // You can add more assertions as needed.
+    // Use screen queries to assert the presence of specific elements or text
+    const headingElement = screen.getByText(/home/i);
+
+    // Add more assertions as needed
+    expect(headingElement).toBeDefined();
+    // Or use other matchers like `toBeTruthy()`, `not.toBeNull()`, etc., based on your preference
+
+    // Alternatively, you can also use vanilla JavaScript assertions
+    // For example:
+    // const headingElement = screen.getByText(/home/i);
+    // if (headingElement) {
+    //   // Perform assertions
+    //   expect(headingElement.textContent).toBe('Home');
+    // } else {
+    //   // Fail the test if the element is not found
+    //   fail('Heading element not found');
+    // }
+  });
 });
