@@ -71,7 +71,12 @@ jobs:
         run: |
           mkdir -p ./out
           cp -R .next ./out
-          
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ./out
+
   # Test job
   test:
     runs-on: ubuntu-latest
