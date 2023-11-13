@@ -105,4 +105,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          artifact-name: my-artifact
       # Additional deployment steps can be added here
