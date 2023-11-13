@@ -11,7 +11,6 @@ const nextConfig = {
     unoptimized: true,
     loader: "default",
     dangerouslyAllowSVG: true,
-    output: "export" 
   },
 };
 
