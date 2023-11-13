@@ -106,5 +106,5 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          artifact-name: my-artifact
+          artifact_name: my-artifact
       # Additional deployment steps can be added here
