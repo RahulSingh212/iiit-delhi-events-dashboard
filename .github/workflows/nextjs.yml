@@ -94,17 +94,17 @@ jobs:
       - name: Run Jest tests
         run: npm test
 
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: [build, test]
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-        with:
-          artifact_name: my-artifact
-      # Additional deployment steps can be added here
+  # # Deployment job
+  # deploy:
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   needs: [build, test]
+  #   steps:
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v2
+  #       with:
+  #         artifact_name: my-artifact
+  #     # Additional deployment steps can be added here
