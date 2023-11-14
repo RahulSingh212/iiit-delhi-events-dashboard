@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "510033588693",
+    "project_id": "iiit-delhi-events",
+    "storage_bucket": "iiit-delhi-events.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510033588693:android:c4b6a785adfd2525f4cd5c",
+        "android_client_info": {
+          "package_name": "com.iiitd.iiitd_evnts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510033588693-g8fct4105ioi0v98esmrhb1vikmf6ntt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iiitd.iiitd_evnts",
+            "certificate_hash": "c96e764c7dfed021b6f1f765c047dc2bb9c36ed2"
+          }
+        },
+        {
+          "client_id": "510033588693-mpfqn874l7v2dkqdf8haab6a5jiufbkh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iiitd.iiitd_evnts",
+            "certificate_hash": "8e5874708036cae35e2287c539bc149e7d7469d8"
+          }
+        },
+        {
+          "client_id": "510033588693-s52js9c22itsc52jolsfn5o4t15j0jqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlI9VIORT4QCvy5F7HKYdua7NuiRBaNuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510033588693-s52js9c22itsc52jolsfn5o4t15j0jqc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
