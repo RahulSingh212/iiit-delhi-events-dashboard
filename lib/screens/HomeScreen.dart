@@ -105,11 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: SafeArea(
-          child: isLoading? const Center(
-      child: CircularProgressIndicator(
-      color: Colors.yellow,
-      )
-    ): SingleChildScrollView(
+          child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             physics: const BouncingScrollPhysics(),
@@ -158,7 +154,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  Column(
+                  isLoading? Padding(
+                    padding: EdgeInsets.symmetric(vertical: 500.h),
+                    child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.yellow,
+                        )
+                    ),
+                  ): Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,

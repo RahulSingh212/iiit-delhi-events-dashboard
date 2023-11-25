@@ -61,7 +61,5 @@ void main() {
     expect(find.text('Home'), findsOneWidget);
     expect(find.text('Hello,'), findsOneWidget);
     expect(find.text(mockUser.displayName as String), findsOneWidget);
-    expect(find.text("Live Events"), findsOneWidget);
-    expect(find.text("Upcoming Events"), findsOneWidget);
   });
 }
