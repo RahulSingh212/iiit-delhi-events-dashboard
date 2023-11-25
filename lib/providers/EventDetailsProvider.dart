@@ -18,8 +18,6 @@ class EventDetailsProvider extends ChangeNotifier {
     globalLiveEventList = [];
   }
 
-
-
   Future<void> fetchGlobalEventDetails() async {
     List<EventModel> tempLiveEventDetails = <EventModel>[];
     List<EventModel> tempUpcomingEventDetails = <EventModel>[];

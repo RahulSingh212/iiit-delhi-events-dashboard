@@ -98,13 +98,18 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Icon(
                 Icons.person,
+
               ),
             ),
           ),
         ],
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
+          child: isLoading? const Center(
+      child: CircularProgressIndicator(
+      color: Colors.yellow,
+      )
+    ): SingleChildScrollView(
             scrollDirection: Axis.vertical,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             physics: const BouncingScrollPhysics(),
@@ -160,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Container(
                         margin: EdgeInsets.only(
-                          top: 58.h,
+                          top: 80.h,
                         ),
                         child: Text(
                           "Live Events",
@@ -168,6 +173,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 70.sp, color: Colors.white),
                         ),
                       ),
+                      Provider.of<EventDetailsProvider>(context,listen: false).globalLiveEventList.isEmpty? Container(
+                        padding: EdgeInsets.symmetric(vertical: 100.h, horizontal: 20.w),
+                        child: Center(child:  Text(
+                          "No Currently Active Events :(",
+                          style: TextStyle(
+                              fontSize: 50.sp, color: Colors.white
+                          ),
+                          textAlign: TextAlign.center,
+                        ),),):
                       GridViewWidget(eventList: Provider.of<EventDetailsProvider>(context,listen: false).globalLiveEventList, isSubEvent: false,),
                       Container(
                         margin: EdgeInsets.only(
@@ -179,6 +193,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 70.sp, color: Colors.white),
                         ),
                       ),
+                      Provider.of<EventDetailsProvider>(context,listen: false).globalUpcomingEventList.isEmpty? Container(
+                        padding: EdgeInsets.symmetric(vertical: 100.h, horizontal: 20.w),
+                        child: Center(child:  Text(
+                          "No Currently Active Events :(",
+                          style: TextStyle(
+                              fontSize: 50.sp, color: Colors.white
+                          ),
+                          textAlign: TextAlign.center,
+                        ),),):
                       GridViewWidget(eventList: Provider.of<EventDetailsProvider>(context,listen: false).globalUpcomingEventList, isSubEvent: false),
                     ],
                   ),

@@ -36,6 +36,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
         .then((value) {
       setState(() {
         widget.clubDetails = value;
+        isLoading = false;
       });
     });
   }
@@ -101,7 +102,11 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
       body: SafeArea(
           child: SizedBox(
             height: 2000.h,
-            child: SingleChildScrollView(
+            child: isLoading? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.yellow,
+                )
+            ) :SingleChildScrollView(
               scrollDirection: Axis.vertical,
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               physics: const BouncingScrollPhysics(),
@@ -112,11 +117,81 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Container(
+                      // padding:EdgeInsets.only(top: 60.h, left: 40.w, right: 40.w),
+                      width: double.infinity,
+                      height: 700.h,
+                      decoration: BoxDecoration(
+                        // image: DecorationImage(
+                        //   image: AssetImage("assets/Illstration.png"),
+                        //   fit: BoxFit.fill,
+                        // ),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.white, width: 2.sp),
+                          color: Colors.black45
+                        // color: Colors.red,
+                      ),
+                      child: Image.network(
+                        widget.clubDetails.clubLogoUrl,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100.h,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 58.h,
+                      ),
+                      child: Text(
+                        "Description",
+                        style: TextStyle(
+                            fontSize: 70.sp, color: Colors.white),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 58.h,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.notes,
+                            color: Colors.white,
+                            size: 100.sp,
+                          ),
+                          SizedBox(
+                            width: 30.w,
+                          ),
+                          Flexible(
+                            child: Text(
+                              widget.clubDetails.clubDescription,
+                              style: TextStyle(
+                                  fontSize: 40.sp, color: Colors.white),
+                              softWrap: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    widget.clubDetails.liveEventList.isEmpty && widget.clubDetails.upcomingEventList.isEmpty ? Container(
+                  padding: EdgeInsets.symmetric(vertical: 200.h, horizontal: 20.w),
+                  child: Center(child:  Text(
+                      "No Live or Upcoming Events for ${widget.clubDetails.clubName}",
+                      style: TextStyle(
+
+                          fontSize: 70.sp, color: Colors.white
+                      ),
+                    textAlign: TextAlign.center,
+                    ),),):
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        widget.clubDetails.liveEventList.isEmpty ? Container():
                         Container(
                           margin: EdgeInsets.only(
                             top: 58.h,
@@ -128,6 +203,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                           ),
                         ),
                         GridViewWidget(eventList: widget.clubDetails.liveEventList, isSubEvent: false,),
+                        widget.clubDetails.upcomingEventList.isEmpty ? Container():
                         Container(
                           margin: EdgeInsets.only(
                             top: 58.h,

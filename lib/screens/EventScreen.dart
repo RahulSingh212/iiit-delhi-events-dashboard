@@ -128,7 +128,7 @@ class _EventScreenState extends State<EventScreen>
             TabBar(
               tabs: <Widget>[
                 Tab(
-                  icon: const Icon(Icons.admin_panel_settings_sharp),
+                  icon: const Icon(Icons.event),
                   iconMargin: EdgeInsets.only(bottom: 20.h),
                   child: Align(
                     alignment: Alignment.center,
@@ -257,7 +257,7 @@ class _EventScreenState extends State<EventScreen>
                                     ),
                                     Flexible(
                                       child: Text(
-                                        widget.eventDetails.description*10,
+                                        widget.eventDetails.description,
                                         style: TextStyle(
                                             fontSize: 40.sp, color: Colors.white),
                                         softWrap: true,

@@ -19,12 +19,10 @@ class _NavBarScreenState extends State<NavBarScreen> {
 
   User? currUser = FirebaseAuth.instance.currentUser;
 
-
   PageController pageController = PageController(
     initialPage: 0,
     keepPage: true,
   );
-
 
   @override
   Widget build(BuildContext context) {
