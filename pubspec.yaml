@@ -44,7 +44,7 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   intl: ^0.18.1
   url_launcher: ^6.2.1
-
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +56,10 @@ dev_dependencies:
   firebase_auth_mocks: ^0.13.0
   google_sign_in_mocks: ^0.3.0
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/iiitD-Logo.jpg"
 
 
 
