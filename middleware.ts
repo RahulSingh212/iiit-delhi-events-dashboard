@@ -31,7 +31,6 @@ export function middleware(req: NextRequest, res: NextResponse) {
     if (
       !req.nextUrl.pathname.startsWith("/a") &&
       !req.nextUrl.pathname.startsWith("/profile") &&
-      req.nextUrl.pathname.startsWith("/clubs/addNewClub") &&
       (req.nextUrl.pathname.startsWith("/clubs")
         ? (req.nextUrl.pathname.match(/\//g) || []).length < 2
         : true) &&

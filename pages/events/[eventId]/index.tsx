@@ -28,7 +28,7 @@ export default function EventDetailsPage(props: Props) {
     if (response.status) {
       if (props.isAdmin) {
         router.replace({
-          pathname: `/events/${router.query.eventId}`,
+          pathname: `/events`,
         });
       } else {
         router.replace({
