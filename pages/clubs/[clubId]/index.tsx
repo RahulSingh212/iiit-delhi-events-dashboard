@@ -90,6 +90,9 @@ export default function ClubDetailsPage(props: Props) {
           onClick={() => {
             router.push({
               pathname: `/clubs/${router.query.clubId}/newClubEvent`,
+              // query: {
+              //   cId: `${router.query.clubId}`
+              // }
             });
           }}
         >

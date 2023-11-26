@@ -176,7 +176,6 @@ export const createNewEventForClub = async (eventInfo: EventInformation) => {
 
     let club_Events_List = clubDoc.data()?.club_Events_List;
     club_Events_List.push(event.id);
-    console.log(club_Events_List);
 
     await updateDoc(club, {
       club_Events_List: club_Events_List,
@@ -210,24 +209,23 @@ export const deleteEvent = async (eventName: string, eventId: string) => {
         val: "",
       };
     } else {
-      const clubId = eventInfo.data()?.club_Id;
-      if (clubId && clubId !== "") {
+      const clubId = eventInfo.data()?.event_Club_Id;
+      if (clubId !== "") {
         const clubDoc = doc(db, CLUBS_INFORMATION_COLLECTION_NAME, clubId);
         const clubInfo = await getDoc(clubDoc);
         if (clubInfo.exists()) {
           let club_Events_List = clubInfo.data()?.club_Events_List;
-          let finalList: any[] = [];
+          let nList: any[] = [];
           for (let i = 0; i < club_Events_List.length; i++) {
-            let cId = club_Events_List[i];
-            if (cId !== clubId) {
-              finalList.push(cId);
+            if (String(club_Events_List[i]) !== String(eventId)) {
+              nList.push(club_Events_List[i]);
             }
           }
 
           const res = await updateClubInfo(
             clubId,
             "club_Events_List",
-            finalList
+            nList
           );
         }
       }
