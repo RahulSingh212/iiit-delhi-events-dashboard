@@ -7,6 +7,7 @@ import 'package:iiitd_evnts/providers/ClubDetailProvider.dart';
 import 'package:iiitd_evnts/providers/EventDetailsProvider.dart';
 import 'package:iiitd_evnts/providers/LoginProvider.dart';
 import 'package:iiitd_evnts/providers/NavBarIndexProvider.dart';
+import 'package:iiitd_evnts/providers/UserDetailsProvider.dart';
 import 'package:iiitd_evnts/screens/LoginScreen.dart';
 import 'package:iiitd_evnts/screens/NavBarScreen.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<LoginProvider>(create: (_)=>LoginProvider()),
         ChangeNotifierProvider<NavBarIndexProvider>(create: (_)=>NavBarIndexProvider()),
         ChangeNotifierProvider<EventDetailsProvider>(create: (_)=>EventDetailsProvider(fireStore)),
-        ChangeNotifierProvider<ClubDetailProvider>(create: (_)=>ClubDetailProvider(fireStore))
+        ChangeNotifierProvider<ClubDetailProvider>(create: (_)=>ClubDetailProvider(fireStore)),
+        ChangeNotifierProvider<UserDetailProvider>(create: (_)=>UserDetailProvider(fireStore))
       ],
       child: ScreenUtilInit(
         builder: (context, child) => MaterialApp(

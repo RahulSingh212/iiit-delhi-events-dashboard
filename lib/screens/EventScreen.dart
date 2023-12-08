@@ -4,9 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:googleapis/calendar/v3.dart' as cal;
 import 'package:iiitd_evnts/components/GridViewWidget.dart';
 import 'package:iiitd_evnts/models/EventDiscussionModel.dart';
 import 'package:iiitd_evnts/models/EventModel.dart';
+import 'package:iiitd_evnts/models/QRModel.dart';
+import 'package:iiitd_evnts/providers/CalendarApiProvider.dart';
+import 'package:iiitd_evnts/providers/UserDetailsProvider.dart';
 import 'package:iiitd_evnts/screens/NavBarScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -32,11 +36,19 @@ class _EventScreenState extends State<EventScreen>
 
   List<EventDiscussionMessageModel> chats = [];
 
-  loadChats() async {
+  bool registered = false;
+
+  loadDetails() async {
     await Provider.of<EventDetailsProvider>(context, listen: false).fetchEventDiscussions(widget.eventDetails.eventId).then((value) async {
       setState(() {
         print("Chats Loaded...");
         chats = value;
+      });
+    });
+    await Provider.of<EventDetailsProvider>(context, listen: false).checkUserRegistration(widget.eventDetails.eventId, currUser!.uid.toString()).then((value) async {
+      setState(() {
+        print("Chats Loaded...");
+        registered = value;
       });
     });
   }
@@ -46,14 +58,14 @@ class _EventScreenState extends State<EventScreen>
     // TODO: implement initState
     super.initState();
     tabController = TabController(length: 2, vsync: this);
-    loadChats();
+    loadDetails();
   }
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    loadChats();
+    loadDetails();
   }
 
   @override
@@ -282,17 +294,42 @@ class _EventScreenState extends State<EventScreen>
                                 SizedBox(height: 100.h,),
                                 Center(child: OutlinedButton(
                                   onPressed: () async {
-                                    print("LogOut Pressed");
-                                    // await Provider.of<LoginProvider>(context,listen: false).logOut();
-                                    // FirebaseAuth.instance.signOut().then((value) {
-                                    //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>LoginPage()), (route) => false);
-                                    // });
 
-                                    // setState(() {
-                                    //
-                                    // });
+
+                                      if(!registered){
+                                        print("Registering Event....");
+
+                                        List<cal.EventAttendee> attendeeEmailList = [
+                                          cal.EventAttendee(
+                                              email: FirebaseAuth.instance.currentUser?.email
+                                                  .toString()),
+                                        ];
+
+                                        await Provider.of<UserDetailProvider>(
+                                            context, listen: false).registerEvent(
+                                            currUser?.uid, QRModel(
+                                            widget.eventDetails.name,
+                                            widget.eventDetails.eventId, "TEMP"));
+                                        await Provider.of<EventDetailsProvider>(
+                                            context, listen: false).addUserRegistration(widget.eventDetails.eventId,
+                                            currUser?.uid);
+                                        await CalenderApiProvider().addEvent(
+                                            context,
+                                            widget.eventDetails.name,
+                                            widget.eventDetails.startTime,
+                                            widget.eventDetails.endTime,
+                                            attendeeEmailList,
+                                            widget.eventDetails.description,
+                                            widget.eventDetails.address,
+                                        );
+                                        loadDetails();
+                                        setState(() {});
+                                      }
+
+
                                   },
                                   style: ButtonStyle(
+
                                       padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
                                           EdgeInsets.symmetric(
                                               horizontal: 45.w, vertical: 25.h)),
@@ -301,7 +338,7 @@ class _EventScreenState extends State<EventScreen>
                                               borderRadius: BorderRadius.circular(20)))),
                                   child: Container(
                                     child: Text(
-                                      "Register",
+                                      registered?"Registered":"Register",
                                       textAlign: TextAlign.center,
 
                                       style: TextStyle(color: Colors.white,fontFamily: 'JosefinSan-Light',
@@ -433,7 +470,7 @@ class _EventScreenState extends State<EventScreen>
                                       if(chatBarController.text.trim().isNotEmpty){
                                         Provider.of<EventDetailsProvider>(context, listen: false).addEventDiscussions(widget.eventDetails.eventId, EventDiscussionMessageModel(currUser!.displayName as String,currUser!.email as String, chatBarController.text, DateTime.timestamp(), currUser!.photoURL as String));
                                         chatBarController.clear();
-                                        loadChats();
+                                        loadDetails();
                                         setState(() {});
                                       }
 

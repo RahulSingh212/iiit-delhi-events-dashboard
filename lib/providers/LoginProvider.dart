@@ -9,13 +9,13 @@ Map<String,dynamic> convertToJSON(User currUser){
   return <String,dynamic>{
     "uid":currUser.uid,
     "displayName":currUser.displayName,
-    "email":currUser.email,
+    "email":currUser.email
   };
 }
 
 class LoginProvider extends ChangeNotifier {
 
-  final userRef = FirebaseFirestore.instance.collection("Users");
+  final userRef = FirebaseFirestore.instance.collection("USER-DETAILS-INFORMATION");
 
   Future<void> loginWithGoogle() async {
     UserCredential userCred = await signInWithGoogle();
@@ -36,7 +36,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn(scopes: ['https://www.googleapis.com/auth/calendar']).signIn();
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
@@ -62,8 +62,8 @@ class LoginProvider extends ChangeNotifier {
 
     await userRef.get().then(
       (userProfiles) {
-        for (var tempUser in userProfiles.docs) {
-          if (currUser?.uid.compareTo(tempUser.id) == 0) {
+        for (var currUserDoc in userProfiles.docs) {
+          if (currUser?.uid.compareTo(currUserDoc.id) == 0) {
             result = true;
             break;
           }
@@ -85,5 +85,8 @@ class LoginProvider extends ChangeNotifier {
         .onError((e, _) => developer.log(
             "Error writing User Profile to FireBase: $e",
             name: runtimeType.toString()));
+
+    await userRef.doc(currUser.uid).update({"registered_Event_List": FieldValue.arrayUnion([])});
+
   }
 }

@@ -49,7 +49,7 @@ class _SubEventScreenState extends State<SubEventScreen> with TickerProviderStat
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "SubEvent",
+          widget.eventDetails.name,
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.white,

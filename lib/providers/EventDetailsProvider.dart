@@ -161,6 +161,26 @@ class EventDetailsProvider extends ChangeNotifier {
     return tempMsgList;
   }
 
+  Future<bool> checkUserRegistration(var eventId, String userID) async {
+    CollectionReference<Map<String, dynamic>> eventCollectionRef =
+    firebaseFireStoreInstance.collection("EVENTS-DETAILS-INFORMATION");
+
+    bool regStatus = false;
+
+    await eventCollectionRef.doc(eventId).get().then((eventDoc) async {
+      var eventDetails = eventDoc.data();
+
+      for(var msg in eventDetails?["event_Registered_User_List"]){
+
+        if(userID.compareTo(msg["user_Id"]) == 0) {
+          regStatus = true;
+          return;
+        }
+      }
+    });
+    return regStatus;
+  }
+
   Future<void> addEventDiscussions(var eventId, EventDiscussionMessageModel msgObject) async {
 
     CollectionReference<Map<String, dynamic>> eventCollectionRef =
@@ -171,8 +191,15 @@ class EventDetailsProvider extends ChangeNotifier {
     });
   }
 
+  Future<void> addUserRegistration(var eventId, var userID) async {
 
+    CollectionReference<Map<String, dynamic>> eventCollectionRef =
+    firebaseFireStoreInstance.collection("EVENTS-DETAILS-INFORMATION");
 
+    await eventCollectionRef.doc(eventId).update({
+      "event_Registered_User_List": FieldValue.arrayUnion([{"user_Id":userID}])
+    });
+  }
 
   int checkEventLiveStatus(DateTime startTime, DateTime endTime) {
     if (startTime.isBefore(DateTime.now())) {
