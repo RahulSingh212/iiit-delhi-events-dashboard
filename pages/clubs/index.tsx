@@ -1,3 +1,4 @@
+import { ClubInfoTile } from "@/components/ClubInfoTile";
 import { fetchClubsInfoList } from "@/lib/firebase/clubsHandler";
 import { useRouter } from "next/router";
 
@@ -10,7 +11,44 @@ export default function ClubsListPage(props: Props) {
   return (
     <>
       <main className={`relative w-screen`}>
-        <div className={`relative w-[95%] mx-auto mt-3`}>
+        <div
+          className={`relative w-[95%] flex flex-col mx-auto shadow-md p-3 rouned-lg bg-yellow-50`}
+        >
+          <div className={`relative flex justify-between w-full mx-auto`}>
+            <span
+              className={`relative  px-1 py-3 text-semibold font-mono text-2xl`}
+            >
+              All Clubs
+            </span>
+            <button
+              className={`relative px-3 py-1 rounded-3xl bg-red-400 hover:bg-red-500 text-white`}
+              onClick={() => {
+                router.push({
+                  pathname: `/clubs/addNewClub`,
+                });
+              }}
+            >
+              Add New Club
+            </button>
+          </div>
+          <div
+            className={`relative w-full flex flex-col space-y-3 mx-auto my-3`}
+          >
+            {props.clubsList.map((club: any, index: number) => (
+              <ClubInfoTile
+                key={index}
+                clubInfo={club}
+                routerUrlObj={{
+                  pathname: `/clubs/${club.club_Id}`,
+                  query: {
+                    clubName: `${club.club_Name}`,
+                  },
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        {/* <div className={`relative w-[95%] mx-auto mt-3`}>
           <span
             className={`relative w-full px-1 py-3 text-semibold font-mono text-2xl`}
           >
@@ -34,19 +72,21 @@ export default function ClubsListPage(props: Props) {
               <span>{club.club_Description}</span>
             </div>
           ))}
-        </div>
+        </div> */}
+
+        <div className={`relative w-full h-12`} />
       </main>
 
-      <button
+      {/* <button
         className={`absolute bottom-2 right-2 rounded-3xl px-4 py-2 bg-red-400`}
         onClick={() => {
           router.push({
-            pathname: `/clubs/addNewClub`
+            pathname: `/clubs/addNewClub`,
           });
         }}
       >
         Add New Club
-      </button>
+      </button> */}
     </>
   );
 }

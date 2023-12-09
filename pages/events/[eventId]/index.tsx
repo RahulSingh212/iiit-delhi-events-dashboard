@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { getSubEventsList } from "@/lib/firebase/subEventsHandler";
 import InfoTile from "@/components/feildContainers/InfoTile";
 import { EventInformation } from "@/lib/classModals/eventInformation";
+import { SubEventInfoTile } from "@/components/SubEventInfoTile";
 
 type Props = {
   isAdmin: boolean;
@@ -42,11 +43,19 @@ export default function EventDetailsPage(props: Props) {
     <>
       <main className={`relative w-screen`}>
         <div className={`relative w-[95%] mx-auto mt-5 space-y-2`}>
-          <span
-            className={`relative w-full text-center flex text-3xl font-serif justify-center mb-4`}
-          >
-            Event Details
-          </span>
+          <div className={`relative w-full flex justify-between align-middle items-center py-2 px-1 bg-yellow-50 mb-4`}>
+            <span
+              className={`relative text-center flex text-3xl font-serif justify-center my-auto`}
+            >
+              Event Details
+            </span>
+            <button
+              className={`relative font-semibold px-4 py-2 rounded-3xl bg-red-400 text-white`}
+              onClick={deleteEventHandler}
+            >
+              Delete event
+            </button>
+          </div>
           <InfoTile
             isEditable={!props.isAdmin}
             handlerType={UPDATE_EVENT}
@@ -88,46 +97,63 @@ export default function EventDetailsPage(props: Props) {
             inputType={"text"}
           />
         </div>
-        <div className={`relative  w-[95%] mx-auto flex flex-col mb-2 mt-5`}>
-          <span className={`relative w-full text-xl font-medium mb-2`}>
-            Sub events:
-          </span>
-          <div className={`relative w-full flex flex-col space-y-2`}>
-            {props.subEventsList.map((subEvent: any, index: number) => (
-              <div
+
+        <div className={`relative w-[95%] h-[1px] my-6 bg-black mx-auto`} />
+
+        <div
+          className={`relative w-[95%] flex flex-col mx-auto mt-3 shadow-md p-3 rouned-lg bg-yellow-50`}
+        >
+          <div className={`relative flex justify-between w-full mx-auto mt-3`}>
+            <span
+              className={`relative px-1 py-3 text-semibold font-mono text-2xl`}
+            >
+              Sub events:
+            </span>
+            {!props.isAdmin && (
+              <button
+                className={`relative px-3 py-1 rounded-3xl bg-red-400 hover:bg-red-500 text-white`}
                 onClick={() => {
                   router.push({
-                    pathname: `/events/${router.query.eventId}/subEvents/${subEvent.subEvent_Id}`,
+                    pathname: `/events/${router.query.eventId}/addSubEvent`,
                   });
                 }}
-                key={index}
-                className={`relative flex flex-col space-y-1 px-3 py-1 rounded-md bg-gray-200 cursor-pointer hover:bg-gray-300`}
               >
-                <span>{subEvent.subEvent_Name}</span>
-                <span>{subEvent.subEvent_Description}</span>
-              </div>
-            ))}
+                Add sub event
+              </button>
+            )}
           </div>
+          {props.subEventsList.length > 0 && (
+            <div
+              className={`relative w-full flex flex-col space-y-2 mx-auto my-3`}
+            >
+              {props.subEventsList.map((subEvent: any, index: number) => (
+                <SubEventInfoTile
+                  key={index}
+                  subEventInfo={subEvent}
+                  routerUrlObj={{
+                    pathname: `/events/${router.query.eventId}/subEvents/${subEvent.subEvent_Id}`,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+          {props.subEventsList.length === 0 && (
+            <div
+              className={`relative w-full flex text-center text-xl flex-col h-20 justify-center align-middle items-center space-y-2 mx-auto my-3`}
+            >
+              List is empty
+            </div>
+          )}
         </div>
+
+        <div className={`relative w-full h-12`} />
       </main>
-      {!props.isAdmin && (
-        <button
-          className={`absolute bottom-3 right-3 font-semibold px-4 py-2 rounded-3xl bg-red-400 text-white`}
-          onClick={() => {
-            router.push({
-              pathname: `/events/${router.query.eventId}/addSubEvent`,
-            });
-          }}
-        >
-          Add sub event
-        </button>
-      )}
-      <button
+      {/* <button
         className={`absolute bottom-3 left-3 font-semibold px-4 py-2 rounded-3xl bg-red-400 text-white`}
         onClick={deleteEventHandler}
       >
         Delete event
-      </button>
+      </button> */}
     </>
   );
 }

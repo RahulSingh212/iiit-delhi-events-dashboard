@@ -8,6 +8,7 @@ import {
 import { useRouter } from "next/router";
 import InfoTile from "@/components/feildContainers/InfoTile";
 import { ClubInformation } from "@/lib/classModals/clubInformation";
+import { EventInfoTile } from "@/components/EventInfoTile";
 
 type Props = {
   clubDetails: ClubInformation;
@@ -48,60 +49,65 @@ export default function ClubDetailsPage(props: Props) {
             inputType={"text"}
           />
         </div>
-        <div className={`relative w-[95%] flex flex-col mx-auto my-2`}>
-          <span
-            className={`relative w-full px-1 py-3 text-semibold font-mono text-lg mb-2`}
-          >
-            All Events of the Club
-          </span>
-          <div className={`relative w-full flex flex-col`}>
-            {props.clubDetails.club_Events_List.map(
-              (eventInfo: any, index: number) => (
-                <div
-                  key={index}
-                  className={`relative w-full flex flex-col px-1 py-2 rounded-md bg-gray-500 hover:bg-gray-400 cursor-pointer mb-2`}
-                  onClick={() => {
-                    router.push({
-                      pathname: `/events/${eventInfo.event_Id}`,
+
+        <div className={`relative w-[95%] h-[1px] my-6 bg-black mx-auto`} />
+
+        <div
+          className={`relative w-[95%] flex flex-col mx-auto mt-3 shadow-md p-3 rouned-lg bg-yellow-50`}
+        >
+          <div className={`relative flex justify-between w-full mx-auto mt-3`}>
+            <span
+              className={`relative px-1 py-3 text-semibold font-mono text-2xl`}
+            >
+              All Events of the Club
+            </span>
+            {!props.isAdmin && (
+              <button
+                className={`relative px-3 py-1 rounded-3xl bg-red-400 hover:bg-red-500 text-white`}
+                onClick={() => {
+                  router.push({
+                    pathname: `/clubs/${router.query.clubId}/newClubEvent`,
+                    query: {
+                      clubName: `${props.clubDetails.club_Name}`,
+                    },
+                  });
+                }}
+              >
+                Add New Event
+              </button>
+            )}
+          </div>
+          {props.clubDetails.club_Events_List.length > 0 && (
+            <div
+              className={`relative w-full flex flex-col space-y-2 mx-auto my-3`}
+            >
+              {props.clubDetails.club_Events_List.map(
+                (event: any, index: number) => (
+                  <EventInfoTile
+                    key={index}
+                    eventInfo={event}
+                    routerUrlObj={{
+                      pathname: `/events/${event.event_Id}`,
                       query: {
                         clubName: `${props.clubDetails.club_Name}`,
                       },
-                    });
-                  }}
-                >
-                  <div className={`relative w-full flex space-x-1`}>
-                    <span className={`relative text-white`}>Name: </span>
-                    <span className={`relative w-full`}>
-                      {eventInfo.event_Name}
-                    </span>
-                  </div>
-                  <div className={`relative w-full flex space-x-1`}>
-                    <span className={`relative text-white`}>Description: </span>
-                    <span className={`relative w-full`}>
-                      {eventInfo.event_Description}
-                    </span>
-                  </div>
-                </div>
-              )
-            )}
-          </div>
+                    }}
+                  />
+                )
+              )}
+            </div>
+          )}
+          {props.clubDetails.club_Events_List.length === 0 && (
+            <div
+              className={`relative w-full flex text-center text-xl flex-col h-20 justify-center align-middle items-center space-y-2 mx-auto my-3`}
+            >
+              List is empty
+            </div>
+          )}
         </div>
+
+        <div className={`relative w-full h-12`} />
       </main>
-      {!props.isAdmin && (
-        <button
-          className={`absolute bottom-3 right-5 rounded-3xl px-4 py-2 bg-red-400 hover:bg-red-500 cursor-pointer`}
-          onClick={() => {
-            router.push({
-              pathname: `/clubs/${router.query.clubId}/newClubEvent`,
-              query: {
-                clubName: `${props.clubDetails.club_Name}`,
-              },
-            });
-          }}
-        >
-          Add New Event
-        </button>
-      )}
     </>
   );
 }

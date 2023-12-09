@@ -4,7 +4,7 @@ import Link from "next/link";
 export const DashboardNavbar = () => {
   return (
     <div
-      className={`sticky top-0 w-full flex justify-between px-2 py-1 rounded-b-md bg-gray-500 z-30`}
+      className={`sticky top-0 w-full flex justify-between px-2 py-1 rounded-b-md bg-gray-500 z-30 mb-2`}
     >
       <Link href={`/`} className={`relative my-auto`}>
         <Image
