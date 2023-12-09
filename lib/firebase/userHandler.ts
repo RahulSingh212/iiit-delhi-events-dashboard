@@ -229,5 +229,6 @@ export const getUserProfileDetails = async (userAccessTokenObject: any) => {
 export const fetchApplicationUserInfo = async (userId: string) => {
   const userDoc = doc(db, "USER-DETAILS-INFORMATION", userId);
   const userInfo = await getDoc(userDoc);
+  if (!userInfo.exists()) return null;
   return userInfo.data();
 };
