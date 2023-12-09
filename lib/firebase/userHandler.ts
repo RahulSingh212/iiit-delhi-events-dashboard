@@ -58,7 +58,7 @@ export const userLogoutHandler = async (router: any) => {
   const data = await response.json();
   if (data.status) {
     router.push({
-      pathname: '/login',
+      pathname: "/login",
     });
   }
 };
@@ -224,4 +224,10 @@ export const getUserProfileDetails = async (userAccessTokenObject: any) => {
   );
   const docSnap = await getDoc(docRef);
   return docSnap.data();
+};
+
+export const fetchApplicationUserInfo = async (userId: string) => {
+  const userDoc = doc(db, "USER-DETAILS-INFORMATION", userId);
+  const userInfo = await getDoc(userDoc);
+  return userInfo.data();
 };

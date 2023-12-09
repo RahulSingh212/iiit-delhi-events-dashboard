@@ -66,7 +66,7 @@ export const AuthCard = (props: Props) => {
     } else {
       setLoadingModel(true);
       if (userType === EVENT_USER_ADMIN) {
-        router.replace("/h");
+        router.replace("/clubs");
       } else {
         router.replace("/a");
       }

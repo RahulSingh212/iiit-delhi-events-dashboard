@@ -14,7 +14,7 @@ import {
   SUB_EVENTS_INFORMATION_COLLECTION_NAME,
 } from "../helper";
 import { EventInformation } from "../classModals/eventInformation";
-import { fetchLoggedInUserInfo } from "./userHandler";
+import { fetchApplicationUserInfo, fetchLoggedInUserInfo } from "./userHandler";
 import { updateClubInfo } from "./clubsHandler";
 import { fetchSubAdminInfo, updateSubAdminInfo } from "./subAdminHandler";
 
@@ -296,3 +296,23 @@ export const updateEventInfo = async (
     };
   }
 };
+
+export const qrEventStatus = async (eventId: string, userId: string) => {
+  const eventInfo = await fetchEventInfo(eventId);
+  const userInfo = await fetchApplicationUserInfo(userId);
+
+  const regList: any[] = await userInfo?.registered_Event_List;
+  let status = false;
+  for (let eId of regList) {
+    if (eId.toString() === eventId) {
+      status = true;
+      break;
+    }
+  }
+
+  return {
+    eventInfo,
+    userInfo,
+    status,
+  }
+}

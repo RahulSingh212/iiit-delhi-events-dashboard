@@ -13,7 +13,8 @@ export function middleware(req: NextRequest, res: NextResponse) {
   if (
     !userAccessTokenAdmin &&
     !userAccessTokenSubAdmin &&
-    req.nextUrl.pathname !== "/login"
+    req.nextUrl.pathname !== "/login" &&
+    !req.nextUrl.pathname.startsWith("/eventRegistration")
   ) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
