@@ -303,8 +303,8 @@ export const qrEventStatus = async (eventId: string, userId: string) => {
 
   const regList: any[] = await userInfo?.registered_Event_List;
   let status = false;
-  for (let eId of regList) {
-    if (eId.toString() === eventId) {
+  for (let eventInfo of regList) {
+    if (eventInfo.event_Id.toString() === eventId) {
       status = true;
       break;
     }
