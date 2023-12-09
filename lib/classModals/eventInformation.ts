@@ -14,6 +14,7 @@ export class EventInformation {
   event_End_Time: any = "";
   event_Location_Url: string = "";
   event_Logo_Url: string = "";
+  event_Registered_User_List: string[] = [];
 
 };
 

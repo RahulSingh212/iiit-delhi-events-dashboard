@@ -37,6 +37,7 @@ export const AddNewEvent = (props: Props) => {
   const addClubEventHandler = async () => {
     let eventInfo = new EventInformation();
     eventInfo.event_Club_Id = router.query.clubId + "";
+    eventInfo.event_Club_Name = String(router.query.clubName);
     eventInfo.event_Name = eventName;
     eventInfo.event_Description = eventDescription;
     eventInfo.event_Address = eventLocation;
@@ -60,6 +61,7 @@ export const AddNewEvent = (props: Props) => {
   const addIndEventHandler = async () => {
     let eventInfo = new EventInformation();
     eventInfo.event_Club_Id = router.query.clubId + "";
+    eventInfo.event_Club_Name = "IIIT Delhi";
     eventInfo.event_Name = eventName;
     eventInfo.event_Description = eventDescription;
     eventInfo.event_Address = eventLocation;

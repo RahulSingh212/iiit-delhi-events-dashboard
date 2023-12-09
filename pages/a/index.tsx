@@ -29,6 +29,9 @@ export default function SubAdminPage(props: Props) {
               onClick={() => {
                 router.push({
                   pathname: `/clubs/${club.club_Id}`,
+                  query: {
+                    clubName: `${club.club_Name}`
+                  }
                 });
               }}
               key={index}
@@ -54,6 +57,9 @@ export default function SubAdminPage(props: Props) {
               onClick={() => {
                 router.push({
                   pathname: `/events/${event.event_Id}`,
+                  query: {
+                    eventName: `${event.event_Name}`
+                  }
                 });
               }}
               key={index}

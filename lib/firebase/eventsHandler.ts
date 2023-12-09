@@ -85,6 +85,7 @@ export const createNewIndependentEvent = async (
         event_End_Time: eventInfo.event_End_Time,
         event_Location_Url: eventInfo.event_Location_Url,
         event_Logo_Url: eventInfo.event_Logo_Url,
+        event_Registered_User_List: [],
       }
     );
 
@@ -165,6 +166,7 @@ export const createNewEventForClub = async (eventInfo: EventInformation) => {
         event_End_Time: eventInfo.event_End_Time,
         event_Location_Url: eventInfo.event_Location_Url,
         event_Logo_Url: eventInfo.event_Logo_Url,
+        event_Registered_User_List: []
       }
     );
 
