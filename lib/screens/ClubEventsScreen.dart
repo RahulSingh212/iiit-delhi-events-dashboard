@@ -45,7 +45,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black45,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -54,13 +54,13 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
           widget.clubDetails.clubName,
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 60.sp,
           ),
           textAlign: TextAlign.center,
         ),
         iconTheme: IconThemeData(
-          color: Colors.blue,
+          color: Color(0xeaf65124),
           size: 80.r,
         ),
         actions: [
@@ -126,13 +126,9 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                         //   image: AssetImage("assets/Illstration.png"),
                         //   fit: BoxFit.fill,
                         // ),
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: Colors.white, width: 2.sp),
-                          color: Colors.black45
+                          borderRadius: BorderRadius.circular(30),
+                        image: DecorationImage(image: NetworkImage(widget.clubDetails.clubLogoUrl), fit: BoxFit.cover)
                         // color: Colors.red,
-                      ),
-                      child: Image.network(
-                        widget.clubDetails.clubLogoUrl,
                       ),
                     ),
                     SizedBox(
@@ -145,7 +141,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                       child: Text(
                         "Description",
                         style: TextStyle(
-                            fontSize: 70.sp, color: Colors.white),
+                            fontSize: 70.sp, color: Colors.black),
                       ),
                     ),
                     Container(
@@ -159,7 +155,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                         children: [
                           Icon(
                             Icons.notes,
-                            color: Colors.white,
+                            color: Colors.black,
                             size: 100.sp,
                           ),
                           SizedBox(
@@ -169,7 +165,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                             child: Text(
                               widget.clubDetails.clubDescription,
                               style: TextStyle(
-                                  fontSize: 40.sp, color: Colors.white),
+                                  fontSize: 40.sp, color: Colors.black),
                               softWrap: true,
                             ),
                           ),
@@ -182,7 +178,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                       "No Live or Upcoming Events for ${widget.clubDetails.clubName}",
                       style: TextStyle(
 
-                          fontSize: 70.sp, color: Colors.white
+                          fontSize: 70.sp, color: Colors.black
                       ),
                     textAlign: TextAlign.center,
                     ),),):
@@ -199,7 +195,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                           child: Text(
                             "Live Events",
                             style: TextStyle(
-                                fontSize: 70.sp, color: Colors.white),
+                                fontSize: 70.sp, color: Colors.black),
                           ),
                         ),
                         GridViewWidget(eventList: widget.clubDetails.liveEventList, isSubEvent: false,),
@@ -211,7 +207,7 @@ class _ClubEventsScreenState extends State<ClubEventsScreen> {
                           child: Text(
                             "Upcoming Events",
                             style: TextStyle(
-                                fontSize: 70.sp, color: Colors.white),
+                                fontSize: 70.sp, color: Colors.black),
                           ),
                         ),
                         GridViewWidget(eventList: widget.clubDetails.upcomingEventList, isSubEvent: false),

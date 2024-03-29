@@ -44,10 +44,18 @@ class QrViewWidget extends StatelessWidget {
                 Container(
                   // height: 1000.r,
                   width: 1000.r,
-                  child: QrImageView(data: qrmodel.eventId+"_"+FirebaseAuth.instance.currentUser!.uid.toString(),
-                    version: QrVersions.auto,
-                    gapless: true,
+                  child: PrettyQrView.data(
+                    data: 'https://iiit-delhi-events-dashboard.vercel.app/eventRegistration?uid='+qrmodel.eventId+"-"+FirebaseAuth.instance.currentUser!.uid.toString(),
+                    decoration: const PrettyQrDecoration(
+                      image: PrettyQrDecorationImage(
+                        image: AssetImage('assets/logo.png'),
+                      ),
+                    ),
                   )
+                  // child: QrImageView(data: qrmodel.eventId+"_"+FirebaseAuth.instance.currentUser!.uid.toString(),
+                  //   version: QrVersions.auto,
+                  //   gapless: true,
+                  // )
                 )
               ],
             );
@@ -97,7 +105,7 @@ class QrViewWidget extends StatelessWidget {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
               crossAxisSpacing: 30.w,
-              childAspectRatio: 2.3,
+              childAspectRatio: 2.5,
               mainAxisSpacing: 40.h),
           itemCount: registeredEventList.length,
           shrinkWrap: true,
@@ -111,7 +119,7 @@ class QrViewWidget extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.lightBlue,
+                  color: Color(0xeaf65124),
                   // image: DecorationImage(image: NetworkImage(eventList[position].logoUrl),opacity: 0.5)
                 ),
                 child: Center(

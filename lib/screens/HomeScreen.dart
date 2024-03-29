@@ -47,23 +47,25 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.black45,
+      backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.white12,
         elevation: 0,
         centerTitle: true,
         title: Text(
           "Home",
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: Colors.white,
+            color: Colors.black87,
             fontSize: 60.sp,
           ),
           textAlign: TextAlign.center,
         ),
         iconTheme: IconThemeData(
-          color: Colors.blue,
+          color: Color(0xeaf65124),
           size: 80.r,
         ),
         actions: [
@@ -104,13 +106,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+
       body: SafeArea(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             physics: const BouncingScrollPhysics(),
             child: Container(
-              padding: EdgeInsets.only(top: 20.h, left: 54.w, right: 54.w),
+              padding: EdgeInsets.only(top: 100.h, left: 54.w, right: 54.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Container(
                     padding:
-                    EdgeInsets.only(top: 60.h, left: 40.w, right: 40.w, bottom: 60.h),
+                    EdgeInsets.only(top: 60.h, left: 40.w, right: 40.w, bottom: 80.h),
                     width: double.infinity,
                     // height: 380.h,
                     decoration: BoxDecoration(
@@ -127,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //   fit: BoxFit.fill,
                       // ),
                         borderRadius: BorderRadius.circular(15),
-                        color: const Color(0xFF424949)
+                        color: Color(0xeaf65124),
                       // color: Colors.red,
                     ),
                     child: Column(
@@ -173,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           "Live Events",
                           style: TextStyle(
-                              fontSize: 70.sp, color: Colors.white),
+                              fontSize: 70.sp, color: Colors.black87),
                         ),
                       ),
                       Provider.of<EventDetailsProvider>(context,listen: false).globalLiveEventList.isEmpty? Container(
@@ -181,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Center(child:  Text(
                           "No Currently Active Events :(",
                           style: TextStyle(
-                              fontSize: 50.sp, color: Colors.white
+                              fontSize: 50.sp, color: Colors.black87
                           ),
                           textAlign: TextAlign.center,
                         ),),):
@@ -193,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           "Upcoming Events",
                           style: TextStyle(
-                              fontSize: 70.sp, color: Colors.white),
+                              fontSize: 70.sp, color: Colors.black87),
                         ),
                       ),
                       Provider.of<EventDetailsProvider>(context,listen: false).globalUpcomingEventList.isEmpty? Container(
@@ -201,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Center(child:  Text(
                           "No Currently Active Events :(",
                           style: TextStyle(
-                              fontSize: 50.sp, color: Colors.white
+                              fontSize: 50.sp, color: Colors.black87
                           ),
                           textAlign: TextAlign.center,
                         ),),):

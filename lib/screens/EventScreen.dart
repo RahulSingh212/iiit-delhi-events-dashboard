@@ -78,7 +78,7 @@ class _EventScreenState extends State<EventScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black45,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -87,13 +87,13 @@ class _EventScreenState extends State<EventScreen>
           widget.eventDetails.name,
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 60.sp,
           ),
           textAlign: TextAlign.center,
         ),
         iconTheme: IconThemeData(
-          color: Colors.blue,
+          color: Color(0xeaf65124),
           size: 80.r,
         ),
         actions: [
@@ -168,10 +168,10 @@ class _EventScreenState extends State<EventScreen>
                   ),
                 ),
               ],
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.white60,
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.black54,
               controller: tabController,
-              indicatorColor: Colors.yellow,
+              indicatorColor: Color(0xeaf65124),
             ),
             Expanded(
                 child: Container(
@@ -203,14 +203,15 @@ class _EventScreenState extends State<EventScreen>
                                       //   image: AssetImage("assets/Illstration.png"),
                                       //   fit: BoxFit.fill,
                                       // ),
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(color: Colors.white, width: 2.sp),
-                                      color: Colors.black45
+                                      borderRadius: BorderRadius.circular(30),
+                                      // border: Border.all(color: Colors.black, width: 2.sp),
+                                      // color: Colors.black45
+                                    image: DecorationImage(image: NetworkImage(
+                                      widget.eventDetails.logoUrl,
+                                    ),
+                                    fit: BoxFit.cover),
                                       // color: Colors.red,
                                       ),
-                                  child: Image.network(
-                                    widget.eventDetails.logoUrl,
-                                  ),
                                 ),
                                 SizedBox(
                                   height: 100.h,
@@ -247,7 +248,7 @@ class _EventScreenState extends State<EventScreen>
                                   child: Text(
                                     "Description",
                                     style: TextStyle(
-                                        fontSize: 70.sp, color: Colors.white),
+                                        fontSize: 70.sp, color: Colors.black),
                                   ),
                                 ),
                                 Container(
@@ -261,7 +262,7 @@ class _EventScreenState extends State<EventScreen>
                                   children: [
                                     Icon(
                                       Icons.notes,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       size: 100.sp,
                                     ),
                                     SizedBox(
@@ -271,7 +272,7 @@ class _EventScreenState extends State<EventScreen>
                                       child: Text(
                                         widget.eventDetails.description,
                                         style: TextStyle(
-                                            fontSize: 40.sp, color: Colors.white),
+                                            fontSize: 40.sp, color: Colors.black),
                                         softWrap: true,
                                       ),
                                     ),
@@ -285,7 +286,7 @@ class _EventScreenState extends State<EventScreen>
                                   child: Text(
                                     "Sub Events",
                                     style: TextStyle(
-                                        fontSize: 70.sp, color: Colors.white),
+                                        fontSize: 70.sp, color: Colors.black),
                                   ),
                                 ),
                                 widget.eventDetails.subEvents.isEmpty ?Container():GridViewWidget(
@@ -329,10 +330,15 @@ class _EventScreenState extends State<EventScreen>
 
                                   },
                                   style: ButtonStyle(
-
                                       padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(
                                           EdgeInsets.symmetric(
                                               horizontal: 45.w, vertical: 25.h)),
+                                      backgroundColor: MaterialStatePropertyAll<Color>(
+                                        !registered?Color(0xeaf65124):Colors.white,
+                                      ),
+                                      side: MaterialStatePropertyAll<BorderSide>(
+                                        BorderSide(color: registered?Colors.black:Colors.white)
+                                      ),
                                       shape: MaterialStatePropertyAll<OutlinedBorder>(
                                           RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(20)))),
@@ -340,8 +346,7 @@ class _EventScreenState extends State<EventScreen>
                                     child: Text(
                                       registered?"Registered":"Register",
                                       textAlign: TextAlign.center,
-
-                                      style: TextStyle(color: Colors.white,fontFamily: 'JosefinSan-Light',
+                                      style: TextStyle(color: registered?Colors.black:Colors.white,fontFamily: 'JosefinSan-Light',
                                           fontWeight: FontWeight.w900 ,fontSize: 45.sp),
                                     ),
                                   ),
@@ -373,7 +378,7 @@ class _EventScreenState extends State<EventScreen>
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.yellow,
+                                            color: Color(0xeaf65124),
                                             borderRadius: chats[position].userEmail == FirebaseAuth.instance.currentUser?.email?BorderRadius.only(topRight: Radius.circular(100.sp),bottomLeft: Radius.circular(100.sp), topLeft: Radius.circular(20.sp), bottomRight: Radius.circular(20.sp)):BorderRadius.only(topLeft: Radius.circular(100.sp),bottomRight: Radius.circular(100.sp), topRight: Radius.circular(20.sp), bottomLeft: Radius.circular(20.sp))
                                         ),
                                         padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
@@ -404,7 +409,7 @@ class _EventScreenState extends State<EventScreen>
                                                     child: Text(
                                                       chats[position].userName,
                                                       style: TextStyle(
-                                                          fontSize: 40.sp, color: Colors.black87),
+                                                          fontSize: 40.sp, color: Colors.white, fontWeight: FontWeight.w900),
                                                       softWrap: true,
                                                     ),
                                                   ),
@@ -413,7 +418,7 @@ class _EventScreenState extends State<EventScreen>
                                                     child: Text(
                                                       chats[position].userMsg,
                                                       style: TextStyle(
-                                                          fontSize: 40.sp, color: Colors.black87),
+                                                          fontSize: 40.sp, color: Colors.white),
                                                       softWrap: true,
                                                     ),
                                                   ),
@@ -442,7 +447,7 @@ class _EventScreenState extends State<EventScreen>
                                   border: const OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Color(0xffebebeb),
+                                      color: Colors.black,
                                     ),
                                     borderRadius: BorderRadius.circular(40),
                                   ),
@@ -450,7 +455,7 @@ class _EventScreenState extends State<EventScreen>
                                       horizontal: 100.w, vertical: 40.h),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Color(0xffebebeb),
+                                      color: Colors.black,
                                     ),
                                     borderRadius: BorderRadius.circular(40),
                                   ),
@@ -459,12 +464,12 @@ class _EventScreenState extends State<EventScreen>
                                     fontWeight: FontWeight.w400,
                                     fontSize: 50.sp,
                                     fontStyle: FontStyle.normal,
-                                    color: const Color(0xffffffff),
+                                    color: Colors.black,
                                   ),
                                   suffixIcon: IconButton(
                                     padding: EdgeInsets.symmetric(horizontal: 50.w),
                                     icon: const Icon(Icons.send),
-                                    color: const Color(0xffffffff),
+                                    color: Colors.black,
                                     onPressed: () {
                                       print("serchpressed");
                                       if(chatBarController.text.trim().isNotEmpty){
@@ -473,16 +478,15 @@ class _EventScreenState extends State<EventScreen>
                                         loadDetails();
                                         setState(() {});
                                       }
-
                                     },
                                   ),
                                 ),
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 45.sp,
+                                  fontSize: 50.sp,
                                   fontStyle: FontStyle.normal,
-                                  color: const Color(0xffffffff),
+                                  color: Colors.black,
                                 ),
                               ),
                             ),

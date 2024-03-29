@@ -43,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black45,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -52,13 +52,13 @@ class _ProfilePageState extends State<ProfilePage> {
           "Profile",
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 60.sp,
           ),
           textAlign: TextAlign.center,
         ),
         iconTheme: IconThemeData(
-          color: Colors.blue,
+          color: Color(0xeaf65124),
           size: 80.r,
         ),
         actions: [
@@ -114,13 +114,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   padding: EdgeInsets.only(bottom: 100.h,top: 40.h),
                                   child: Center(
                                     child: CircleAvatar(
+                                      foregroundImage: NetworkImage(
+                                          currUser?.photoURL as String),
                                       radius: 240.r,
-                                      backgroundColor: Colors.yellow,
-                                      child: CircleAvatar(
-                                        foregroundImage: NetworkImage(
-                                            currUser?.photoURL as String),
-                                        radius: 225.r,
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -128,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Padding(padding: EdgeInsets.only(left: 60.w,top: 50.h,bottom: 20.h,right: 60.w),
                                     child: TextField(
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white,fontFamily: 'JosefinSan-Light',
+                                      style: TextStyle(color: Colors.black,fontFamily: 'JosefinSan-Light',
                                           fontWeight: FontWeight.w900),
                                       controller: TextEditingController(text: currUser?.displayName),
                                       enabled: false,
@@ -139,11 +135,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                         // labelStyle: TextStyle(fontSize: 40.sp),
                                         disabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
-                                            color: Colors.white54,
+                                            color: Colors.black,
                                           ),
                                           borderRadius: BorderRadius.circular(12),
                                         ),
-                                        labelStyle: TextStyle(color: Colors.white,fontFamily: 'JosefinSan',
+                                        labelStyle: TextStyle(color: Colors.black,fontFamily: 'JosefinSan',
                                             fontWeight: FontWeight.w900 ,fontSize: 60.sp),
                                       ),
                                       onTap: (){
@@ -161,18 +157,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                       enabled: false,
                                       onChanged: (value) => {
                                       },
-                                      style: TextStyle(color: Colors.white,fontFamily: 'JosefinSan-Light',
+                                      style: TextStyle(color: Colors.black,fontFamily: 'JosefinSan-Light',
                                           fontWeight: FontWeight.w900),
                                       decoration: InputDecoration(
                                         labelText: "Email",
                                         // labelStyle: TextStyle(fontSize: 40.sp),
                                         disabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
-                                            color: Colors.white54,
+                                            color: Colors.black,
                                           ),
                                           borderRadius: BorderRadius.circular(12),
                                         ),
-                                        labelStyle: TextStyle(color: Colors.white,fontFamily: 'JosefinSan',
+                                        labelStyle: TextStyle(color: Colors.black,fontFamily: 'JosefinSan',
                                             fontWeight: FontWeight.w900 ,fontSize: 60.sp),
                                       ),
                                     ),
@@ -197,7 +193,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Text(
                             "Registered Events",
                             style: TextStyle(
-                                fontSize: 70.sp, color: Colors.white),
+                                fontSize: 70.sp, color: Colors.black),
                           ),
                         ),
                         Provider.of<UserDetailProvider>(context,listen: false).registeredList.isEmpty? Container(
@@ -205,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Center(child:  Text(
                             "No Currently Registered Events :(",
                             style: TextStyle(
-                                fontSize: 50.sp, color: Colors.white
+                                fontSize: 50.sp, color: Colors.black
                             ),
                             textAlign: TextAlign.center,
                           ),),):
@@ -237,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       "Logout",
                                       textAlign: TextAlign.center,
 
-                                      style: TextStyle(color: Colors.white,fontFamily: 'JosefinSan-Light',
+                                      style: TextStyle(color: Colors.black,fontFamily: 'JosefinSan-Light',
                                           fontWeight: FontWeight.w900 ,fontSize: 45.sp),
                                     ),
                                   ),

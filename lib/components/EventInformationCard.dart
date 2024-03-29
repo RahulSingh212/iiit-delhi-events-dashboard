@@ -30,8 +30,8 @@ class EventInformationCard extends StatelessWidget {
         width: 250.w,
         decoration: BoxDecoration(
             borderRadius:
-            BorderRadius.circular(100),
-            color: Colors.lightBlue),
+            BorderRadius.circular(25),
+            color: Color(0xeaf65124)),
         padding: EdgeInsets.all(30.r),
         child: Center(
           child: position == 0?timeWidget(context, eventDetails.startTime):position==1?timeWidget(context, eventDetails.endTime):locationWidget(context, eventDetails.locationUrl, eventDetails.address),
@@ -43,13 +43,13 @@ class EventInformationCard extends StatelessWidget {
   Widget timeWidget(BuildContext context, DateTime time){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(CupertinoIcons.clock, size: 80.r,color: Colors.white),
+        Icon(CupertinoIcons.clock_solid, size: 80.r,color: Colors.white),
         SizedBox(height: 15.h,),
-                
-        Text(DateFormat.jm().format(time), style: TextStyle(fontSize: 40.sp,fontWeight: FontWeight.w600,color: Colors.white),textAlign: TextAlign.center,),
-        Text(DateFormat.yMMMMd('en_US').format(time), style: TextStyle(fontSize: 30.sp,fontWeight: FontWeight.w500,color: Colors.white),textAlign: TextAlign.center,),
+        Flexible(child: Text(DateFormat.jm().format(time), style: TextStyle(fontSize: 40.sp,fontWeight: FontWeight.w600,color: Colors.white),textAlign: TextAlign.center,)),
+        Flexible(child: Text(DateFormat.yMMMMd('en_US').format(time), style: TextStyle(fontSize: 30.sp,fontWeight: FontWeight.w500,color: Colors.white),textAlign: TextAlign.center,)),
       ],
     );
   }
@@ -61,7 +61,7 @@ class EventInformationCard extends StatelessWidget {
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(CupertinoIcons.location_solid, size: 80.r,color: Colors.white),

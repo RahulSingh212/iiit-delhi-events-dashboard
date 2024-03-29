@@ -3,6 +3,7 @@ class EventModel {
   String name;
   String address;
   String clubId;
+  String clubName;
   String description;
   DateTime startTime;
   DateTime endTime;
@@ -14,6 +15,7 @@ class EventModel {
   EventModel(this.name,
       this.address,
       this.clubId,
+      this.clubName,
       this.description,
       this.startTime,
       this.endTime,

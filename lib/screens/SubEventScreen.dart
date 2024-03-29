@@ -43,7 +43,7 @@ class _SubEventScreenState extends State<SubEventScreen> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black45,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -52,13 +52,13 @@ class _SubEventScreenState extends State<SubEventScreen> with TickerProviderStat
           widget.eventDetails.name,
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 60.sp,
           ),
           textAlign: TextAlign.center,
         ),
         iconTheme: IconThemeData(
-          color: Colors.blue,
+          color: Color(0xeaf65124),
           size: 80.r,
         ),
         actions: [
@@ -126,13 +126,14 @@ class _SubEventScreenState extends State<SubEventScreen> with TickerProviderStat
                                   //   image: AssetImage("assets/Illstration.png"),
                                   //   fit: BoxFit.fill,
                                   // ),
-                                    borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(color: Colors.white, width: 2.sp),
-                                    color: Colors.black45
+                                  borderRadius: BorderRadius.circular(30),
+                                  // border: Border.all(color: Colors.black, width: 2.sp),
+                                  // color: Colors.black45
+                                  image: DecorationImage(image: NetworkImage(
+                                    widget.eventDetails.logoUrl,
+                                  ),
+                                      fit: BoxFit.cover),
                                   // color: Colors.red,
-                                ),
-                                child: Image.network(
-                                  widget.eventDetails.logoUrl,
                                 ),
                               ),
                               SizedBox(
@@ -170,7 +171,7 @@ class _SubEventScreenState extends State<SubEventScreen> with TickerProviderStat
                                 child: Text(
                                   "Description",
                                   style: TextStyle(
-                                      fontSize: 70.sp, color: Colors.white),
+                                      fontSize: 70.sp, color: Colors.black),
                                 ),
                               ),
                               Container(
@@ -184,7 +185,7 @@ class _SubEventScreenState extends State<SubEventScreen> with TickerProviderStat
                                   children: [
                                     Icon(
                                       Icons.notes,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       size: 100.sp,
                                     ),
                                     SizedBox(
@@ -194,7 +195,7 @@ class _SubEventScreenState extends State<SubEventScreen> with TickerProviderStat
                                       child: Text(
                                         widget.eventDetails.description*10,
                                         style: TextStyle(
-                                            fontSize: 40.sp, color: Colors.white),
+                                            fontSize: 40.sp, color: Colors.black),
                                         softWrap: true,
                                       ),
                                     ),

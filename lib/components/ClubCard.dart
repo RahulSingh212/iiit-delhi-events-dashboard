@@ -42,14 +42,14 @@ class _ClubCardState extends State<ClubCard> {
           //   fit: BoxFit.fill,
           // ),
           borderRadius: BorderRadius.circular(15),
-          color: Color(0xFF424949),
+          color: Color(0xeaf65124),
           // color: Colors.red,
         ),
         child: Card(
           elevation: 8,
           // color: Colors.red,
           child: Container(
-            color: Color(0xFF424949),
+            color: Color(0xeaf65124),
               padding: EdgeInsets.symmetric(
                   horizontal: 54.w, vertical: 40.h),
             // color: Colors.yellow,
@@ -120,18 +120,22 @@ class _ClubCardState extends State<ClubCard> {
                   ),
                     SizedBox(height: 46.8.h),
                     Row(
-
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
                           Icons.notes,
                           color: Colors.white,
                         ),
                         SizedBox(width: 10.w,),
-                        Text(
-                          widget.clubDetails.clubDescription,
-                          style: TextStyle(fontSize: 40.sp,
-                              color: Colors.white),
-                          softWrap: true,
+                        Flexible(
+                          child: Text(
+                            widget.clubDetails.clubDescription,
+                            style: TextStyle(fontSize: 40.sp,
+                                color: Colors.white),
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
                       ],
                     ),
@@ -140,7 +144,8 @@ class _ClubCardState extends State<ClubCard> {
                 CircleAvatar(
                   foregroundImage: NetworkImage(
                       widget.clubDetails.clubLogoUrl),
-                  radius: 100.r,
+                  radius: 130.r,
+
                 ),
               ],
             ),
